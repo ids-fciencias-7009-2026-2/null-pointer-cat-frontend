@@ -1,49 +1,49 @@
 # null-pointer-cat-frontend
 
-Frontend de AdoptaPet, una plataforma para publicar y encontrar animales en adopción.
+Frontend for AdoptaPet, a web platform that allows users to publish pets for adoption and browse available animals.
 
 ---
 
-## Tecnología
+## Technology
 
 React 19 + Vite 8
 
 ---
 
-## Requisitos previos
+## Prerequisites
 
-- Node.js >= 22.12.0
-- nvm (recomendado para gestionar la versión de Node)
+- Node.js >= 22.12.0  
+- nvm (recommended for managing the Node version)
 
 ---
 
-## Cómo ejecutar
+## How to Run
 
-1. Clonar el repositorio:
-```
-   git clone <url-del-repositorio>
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ids-fciencias-7009-2026-2/null-pointer-cat-frontend.git
    cd null-pointer-cat-frontend
-```
+   ```
 
-2. Asegurarse de usar la versión correcta de Node:
-```
+2. Make sure to use the correct Node version:
+   ```bash
    nvm use 22.12.0
-```
+   ```
 
-3. Instalar dependencias:
-```
+3. Install dependencies:
+   ```bash
    npm install
-```
+   ```
 
-4. Levantar el servidor de desarrollo:
-```
+4. Start the development server:
+   ```bash
    npm run dev
-```
+   ```
 
-5. Abrir http://localhost:5173 en el navegador.
+5. Open http://localhost:5173 in your browser.
 
 ---
 
-## Equipo
+## Team
 
 Null Pointer Cats
