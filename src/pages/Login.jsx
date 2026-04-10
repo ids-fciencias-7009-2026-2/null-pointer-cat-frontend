@@ -11,53 +11,46 @@ export default function Login() {
 
   const handleLogin = async () => {
     if (!email.trim() || !password.trim()) {
-      setError("Por favor completa todos los campos.");
+      setError("Please fill in all fields.");
       return;
     }
-
     try {
       const res = await loginUser({ email, password });
-
       if (res.status === 401) {
-        setError("Credenciales incorrectas. Verifica tu correo y contraseña.");
+        setError("Invalid credentials. Please check your email and password.");
         return;
       }
-
       if (!res.ok) {
-        setError("Error al iniciar sesión. Intenta de nuevo.");
+        setError("Login failed. Please try again.");
         return;
       }
-
       const data = await res.json();
-      saveToken(data.token); 
+      saveToken(data.token);
       setError("");
       navigate("/home");
     } catch {
-      setError("Error de conexión con el servidor.");
+      setError("Connection error. Please try again.");
     }
   };
 
   return (
     <div>
-      <h2>Iniciar sesión</h2>
-
+      <h2>Log in</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
-
       <input
-        placeholder="Correo electrónico"
+        placeholder="Email"
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
       <input
-        placeholder="Contraseña"
+        placeholder="Password"
         type="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-
-      <button onClick={handleLogin}>Entrar</button>
-      <p>¿No tienes cuenta? <Link to="/register">Regístrate</Link></p>
+      <button onClick={handleLogin}>Log in</button>
+      <p>Don't have an account? <Link to="/register">Sign up</Link></p>
     </div>
   );
 }

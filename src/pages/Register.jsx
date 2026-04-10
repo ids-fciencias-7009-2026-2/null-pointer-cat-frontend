@@ -21,76 +21,42 @@ export default function Register() {
     setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleRegister = async () => {
-    // Validar que ningún campo esté vacío(?)
     const hasEmpty = Object.values(form).some((v) => v.trim() === "");
     if (hasEmpty) {
-      setError("Todos los campos son obligatorios.");
+      setError("All fields are required.");
       return;
     }
-
     try {
       const res = await registerUser(form);
-
       if (res.status === 409) {
-        setError("Este correo ya está registrado.");
+        setError("This email is already registered.");
         return;
       }
-
       if (!res.ok) {
-        setError("Error al registrar. Intenta de nuevo.");
+        setError("Registration failed. Please try again.");
         return;
       }
-
       setError("");
-      setSuccess("¡Cuenta creada! Redirigiendo al login...");
+      setSuccess("Account created! Redirecting to login...");
       setTimeout(() => navigate("/login"), 1500);
     } catch {
-      setError("Error de conexión con el servidor.");
+      setError("Connection error. Please try again.");
     }
   };
 
   return (
     <div>
-      <h2>Crear cuenta</h2>
-
+      <h2>Create account</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}
-
-      <input
-        name="username"
-        placeholder="Nombre de usuario"
-        onChange={handleChange}
-      />
-      <input
-        name="firstname"
-        placeholder="Nombre"
-        onChange={handleChange}
-      />
-      <input
-        name="lastname"
-        placeholder="Apellido"
-        onChange={handleChange}
-      />
-      <input
-        name="email"
-        placeholder="Correo electrónico"
-        type="email"
-        onChange={handleChange}
-      />
-      <input
-        name="password"
-        placeholder="Contraseña"
-        type="password"
-        onChange={handleChange}
-      />
-      <input
-        name="zipcode"
-        placeholder="Código postal"
-        onChange={handleChange}
-      />
-
-      <button onClick={handleRegister}>Registrarse</button>
-      <p>¿Ya tienes cuenta? <Link to="/login">Inicia sesión</Link></p>
+      <input name="username" placeholder="Username" onChange={handleChange} />
+      <input name="firstname" placeholder="First name" onChange={handleChange} />
+      <input name="lastname" placeholder="Last name" onChange={handleChange} />
+      <input name="email" placeholder="Email" type="email" onChange={handleChange} />
+      <input name="password" placeholder="Password" type="password" onChange={handleChange} />
+      <input name="zipcode" placeholder="Zip code" onChange={handleChange} />
+      <button onClick={handleRegister}>Sign up</button>
+      <p>Already have an account? <Link to="/login">Log in</Link></p>
     </div>
   );
 }
