@@ -1,3 +1,12 @@
+/**
+ * Styles for the Register page component.
+ *
+ * Defines the layout and visual appearance of the registration form,
+ * including the container, input fields, submit button,
+ * success and error messages, and footer link.
+ */
+
+/* Centers the registration form on the page with a card-style appearance. */
 .register-container {
   max-width: 340px;
   margin: 80px auto;
@@ -8,11 +17,13 @@
   text-align: center;
 }
 
+/* Title displayed at the top of the registration form. */
 .register-title {
   margin-bottom: 1rem;
   color: #333;
 }
 
+/* Styles shared by all input fields in the registration form. */
 .register-input {
   width: 100%;
   padding: 10px;
@@ -23,10 +34,12 @@
   transition: border 0.2s;
 }
 
+/* Highlights the input border when the field is focused. */
 .register-input:focus {
   border-color: #6366f1;
 }
 
+/* Primary action button for submitting the registration form. */
 .register-button {
   width: 100%;
   padding: 10px;
@@ -39,22 +52,26 @@
   transition: background 0.2s;
 }
 
+/* Darkens the button background on hover for visual feedback. */
 .register-button:hover {
   background: #4f46e5;
 }
 
+/* Displays validation or server error messages in red. */
 .register-error {
   color: red;
   font-size: 0.9rem;
   margin-bottom: 8px;
 }
 
+/* Displays success messages in green after a successful registration. */
 .register-success {
   color: green;
   font-size: 0.9rem;
   margin-bottom: 8px;
 }
 
+/* Footer text containing the link to the login page. */
 .register-footer {
   margin-top: 10px;
   font-size: 0.9rem;
