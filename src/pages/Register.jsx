@@ -27,6 +27,17 @@ export default function Register() {
       setError("All fields are required.");
       return;
     }
+
+    if (!/^\d{5}$/.test(form.zipcode.trim())) {
+        setError("Zip code must be exactly 5 digits.");
+        return;
+    }
+    
+    if (!form.email.includes("@")) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    
     try {
       const res = await registerUser(form);
       if (res.status === 409) {
