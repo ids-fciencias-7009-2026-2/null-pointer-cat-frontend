@@ -1,0 +1,55 @@
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  background-color: #0f0f0f;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.sidebar-top {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sidebar-bottom {
+  position: relative;
+}
+
+.more-button {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdown {
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  width: 180px;
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 4px 20px rgba(0,0,0,0.5);
+}
+
+.dropdown button {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  color: white;
+  text-align: left;
+  cursor: pointer;
+}
+
+.dropdown button:hover {
+  background-color: #2a2a2a;
+}
