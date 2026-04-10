@@ -1,9 +1,22 @@
+/**
+ * Login page component.
+ *
+ * Renders a form that allows a registered user to authenticate
+ * by providing their email and password.
+ *
+ * Validates that both fields are filled before sending the request
+ * to the backend. Handles error responses from the server and
+ * displays feedback messages to the user.
+ *
+ * On successful authentication, stores the session token in
+ * sessionStorage and redirects the user to the home page.
+ */
+
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../services/api";
 import { saveToken } from "../utils/auth";
 import "../styles/Login.css";
-
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -11,21 +24,37 @@ export default function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  /**
+   * Handles the login form submission.
+   *
+   * Validates that neither field is empty, then sends the credentials
+   * to the backend. Handles the following responses:
+   * - 401: Invalid credentials.
+   * - Other non-ok responses: Generic login error.
+   * - Network errors: Connection error message.
+   *
+   * On success, saves the token returned by the backend into
+   * sessionStorage and navigates to the home page.
+   */
   const handleLogin = async () => {
     if (!email.trim() || !password.trim()) {
       setError("Please fill in all fields.");
       return;
     }
+
     try {
       const res = await loginUser({ email, password });
+
       if (res.status === 401) {
         setError("Invalid credentials. Please check your email and password.");
         return;
       }
+
       if (!res.ok) {
         setError("Login failed. Please try again.");
         return;
       }
+
       const data = await res.json();
       saveToken(data.token);
       setError("");
@@ -34,6 +63,7 @@ export default function Login() {
       setError("Connection error. Please try again.");
     }
   };
+
 
 return (
   <div className="login-container">

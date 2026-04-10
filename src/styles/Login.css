@@ -1,3 +1,12 @@
+/**
+ * Styles for the Login page component.
+ *
+ * Defines the layout and visual appearance of the login form,
+ * including the container, input fields, submit button,
+ * error messages, and footer link.
+ */
+
+/* Centers the login form on the page with a card-style appearance. */
 .login-container {
   max-width: 320px;
   margin: 100px auto;
@@ -8,11 +17,13 @@
   text-align: center;
 }
 
+/* Title displayed at the top of the login form. */
 .login-title {
   margin-bottom: 1rem;
   color: #333;
 }
 
+/* Styles shared by all input fields in the login form. */
 .login-input {
   width: 100%;
   padding: 10px;
@@ -23,10 +34,12 @@
   transition: border 0.2s;
 }
 
+/* Highlights the input border when the field is focused. */
 .login-input:focus {
   border-color: #6366f1;
 }
 
+/* Primary action button for submitting the login form. */
 .login-button {
   width: 100%;
   padding: 10px;
@@ -39,16 +52,19 @@
   transition: background 0.2s;
 }
 
+/* Darkens the button background on hover for visual feedback. */
 .login-button:hover {
   background: #4f46e5;
 }
 
+/* Displays validation or authentication error messages in red. */
 .login-error {
   color: red;
   font-size: 0.9rem;
   margin-bottom: 10px;
 }
 
+/* Footer text containing the link to the registration page. */
 .login-footer {
   margin-top: 10px;
   font-size: 0.9rem;
