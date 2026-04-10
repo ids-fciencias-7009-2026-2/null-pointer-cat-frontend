@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../services/api";
 import { saveToken } from "../utils/auth";
+import "../styles/Login.css";
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -33,24 +35,35 @@ export default function Login() {
     }
   };
 
-  return (
-    <div>
-      <h2>Log in</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <input
-        placeholder="Email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        placeholder="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button onClick={handleLogin}>Log in</button>
-      <p>Don't have an account? <Link to="/register">Sign up</Link></p>
-    </div>
-  );
+return (
+  <div className="login-container">
+    <h2 className="login-title">Log in</h2>
+
+    {error && <p className="login-error">{error}</p>}
+
+    <input
+      className="login-input"
+      placeholder="Email"
+      type="email"
+      value={email}
+      onChange={(e) => setEmail(e.target.value)}
+    />
+
+    <input
+      className="login-input"
+      placeholder="Password"
+      type="password"
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+    />
+
+    <button className="login-button" onClick={handleLogin}>
+      Log in
+    </button>
+
+    <p className="login-footer">
+      Don't have an account? <Link to="/register">Sign up</Link>
+    </p>
+  </div>
+);
 }

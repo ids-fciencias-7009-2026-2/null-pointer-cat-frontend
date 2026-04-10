@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { registerUser } from "../services/api";
+import "../styles/Register.css";
 
 const INITIAL_FORM = {
   username: "",
@@ -44,19 +45,66 @@ export default function Register() {
     }
   };
 
-  return (
-    <div>
-      <h2>Create account</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{success}</p>}
-      <input name="username" placeholder="Username" onChange={handleChange} />
-      <input name="firstname" placeholder="First name" onChange={handleChange} />
-      <input name="lastname" placeholder="Last name" onChange={handleChange} />
-      <input name="email" placeholder="Email" type="email" onChange={handleChange} />
-      <input name="password" placeholder="Password" type="password" onChange={handleChange} />
-      <input name="zipcode" placeholder="Zip code" onChange={handleChange} />
-      <button onClick={handleRegister}>Sign up</button>
-      <p>Already have an account? <Link to="/login">Log in</Link></p>
-    </div>
-  );
+
+return (
+  <div className="register-container">
+    <h2 className="register-title">Create account</h2>
+
+    {error && <p className="register-error">{error}</p>}
+    {success && <p className="register-success">{success}</p>}
+
+    <input
+      className="register-input"
+      name="username"
+      placeholder="Username"
+      onChange={handleChange}
+    />
+
+    <input
+      className="register-input"
+      name="firstname"
+      placeholder="First name"
+      onChange={handleChange}
+    />
+
+    <input
+      className="register-input"
+      name="lastname"
+      placeholder="Last name"
+      onChange={handleChange}
+    />
+
+    <input
+      className="register-input"
+      name="email"
+      placeholder="Email"
+      type="email"
+      onChange={handleChange}
+    />
+
+    <input
+      className="register-input"
+      name="password"
+      placeholder="Password"
+      type="password"
+      onChange={handleChange}
+    />
+
+    <input
+      className="register-input"
+      name="zipcode"
+      placeholder="Zip code"
+      onChange={handleChange}
+    />
+
+    <button className="register-button" onClick={handleRegister}>
+      Sign up
+    </button>
+
+    <p className="register-footer">
+      Already have an account? <Link to="/login">Log in</Link>
+    </p>
+  </div>
+);
+
 }
