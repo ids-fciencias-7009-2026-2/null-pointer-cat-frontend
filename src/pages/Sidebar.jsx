@@ -3,16 +3,27 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Sidebar.css";
 import { FiMenu } from "react-icons/fi";
 
+/**
+ * Sidebar component.
+ * 
+ * Provides navigation and user options.
+ * Includes a "More" dropdown with actions like Profile and Logout.
+ */
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
 
+  /**
+   * Handles logout navigation.
+   */
   const handleLogout = () => {
     navigate("/logout");
   };
 
-  /* This handles clicks outside to close more button and others */
+  /**
+   * Closes the dropdown of more-menu when clicking outside of it.
+   */
   useEffect(() => {
   const handleClickOutside = (event) => {
     if (
@@ -32,7 +43,7 @@ export default function Sidebar() {
 
   return (
     <div className="sidebar">
-      {/* Upper options, latter to be added*/}
+      {/* Upper options, later to be added*/}
       <div className="sidebar-top">
         <h2>Sidebar</h2>
       </div>
@@ -47,6 +58,7 @@ export default function Sidebar() {
           More
         </button>
 
+        {/* Dropdown menu */}
         {open && (
           <div className="dropdown">
             <button onClick={() => navigate("/profile")}>

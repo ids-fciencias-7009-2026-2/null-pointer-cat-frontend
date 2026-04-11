@@ -1,3 +1,4 @@
+/* Sidebar container */
 .sidebar {
   width: 240px;
   height: 100vh;
@@ -12,7 +13,7 @@
   margin: 10px;
 }
 
-/* MORE BUTTON bubble style */
+/* more-button bubble style */
 .more-button {
   width: 100%;
   padding: 12px;
@@ -33,15 +34,17 @@
   transition: all 0.3s ease;
 }
 
+/* Hover effect for button */
 .more-button:hover {
   background: rgba(0, 0, 0, 0.6);
 }
 
+/* Icon styling */
 .more-button svg {
   opacity: 0.8;
 }
 
-/* DROPDOWN glass style */
+/* Dropdown glass style */
 .dropdown {
   position: absolute;
   bottom: 60px;
@@ -57,6 +60,7 @@
   animation: fadeIn 0.2s ease;
 }
 
+/* Dropdown buttons */
 .dropdown button {
   width: 100%;
   padding: 10px;
@@ -68,12 +72,12 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
-
+/* Hover effect for dropdown items */
 .dropdown button:hover {
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* Animation for idk */
+/* Fade-in animation for dropdown */
 @keyframes fadeIn {
   from {
     opacity: 0;
