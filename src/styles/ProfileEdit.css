@@ -1,0 +1,93 @@
+/**
+ * Styles for the ProfileEdit page component.
+ */
+
+.profile-edit-page {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.profile-edit-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  text-align: center;
+}
+
+.profile-edit-title {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.profile-edit-input {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border 0.2s;
+  box-sizing: border-box;
+}
+
+.profile-edit-input:focus {
+  border-color: #6366f1;
+}
+
+.profile-edit-button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background: #6366f1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+
+.profile-edit-button:hover {
+  background: #4f46e5;
+}
+
+.profile-edit-cancel {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  background: transparent;
+  color: #666;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: border 0.2s, color 0.2s;
+}
+
+.profile-edit-cancel:hover {
+  border-color: #999;
+  color: #333;
+}
+
+.profile-edit-error {
+  color: red;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.profile-edit-success {
+  color: green;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.profile-edit-loading {
+  color: #888;
+  font-size: 0.9rem;
+}
