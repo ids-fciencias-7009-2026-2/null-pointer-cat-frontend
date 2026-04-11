@@ -10,5 +10,5 @@ export default function Logout() {
     navigate("/login"); // redirigir
   }, [navigate]);
 
-  return <p>Cerrando sesión...</p>;
+  return <p>Logging out</p>;
 }

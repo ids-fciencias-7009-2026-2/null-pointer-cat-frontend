@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Sidebar.css";
+import { FiMenu } from "react-icons/fi";
 
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
@@ -42,7 +43,8 @@ export default function Sidebar() {
           className="more-button"
           onClick={() => setOpen(!open)}
         >
-         More
+          <FiMenu size={18} />
+          More
         </button>
 
         {open && (
