@@ -1,55 +1,86 @@
 .sidebar {
-  width: 220px;
+  width: 240px;
   height: 100vh;
-  background-color: #0f0f0f;
+  background: rgba(206, 206, 206, 0.6);
+  backdrop-filter: blur(20px);
   color: white;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
+  border-radius: 20px;
+  margin: 10px;
 }
 
-.sidebar-top {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.sidebar-bottom {
-  position: relative;
-}
-
+/* MORE BUTTON bubble style */
 .more-button {
   width: 100%;
-  padding: 10px;
-  background: transparent;
+  padding: 12px;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.2);
   border: none;
-  color: white;
+  color: rgb(255, 255, 255);
   cursor: pointer;
-  text-align: left;
+
+  display: flex;
+  text-align: center;
+  gap: 8px;
+  
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+
+  transition: all 0.3s ease;
 }
 
+.more-button:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.more-button svg {
+  opacity: 0.8;
+}
+
+/* DROPDOWN glass style */
 .dropdown {
   position: absolute;
-  bottom: 50px;
+  bottom: 60px;
   left: 0;
-  width: 180px;
-  background-color: #1a1a1a;
-  border-radius: 10px;
+  width: 200px;
+  background: rgba(30, 30, 30, 0.7);
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
   padding: 10px;
-  box-shadow: 0px 4px 20px rgba(0,0,0,0.5);
+  box-shadow: 
+    0 8px 30px rgba(0,0,0,0.4),
+    inset 0 1px 1px rgba(255,255,255,0.05);
+  animation: fadeIn 0.2s ease;
 }
 
 .dropdown button {
   width: 100%;
   padding: 10px;
+  border-radius: 12px;
   background: transparent;
   border: none;
   color: white;
   text-align: left;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .dropdown button:hover {
-  background-color: #2a2a2a;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Animation for idk */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

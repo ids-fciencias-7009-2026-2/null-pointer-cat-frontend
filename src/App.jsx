@@ -18,7 +18,11 @@ export default function App() {
         <Route
           path="/home"
           element={
-            isAuthenticated ? <Home /> : <Navigate to="/login" />
+            isAuthenticated ? <Home /> : 
+            <Navigate 
+              to="/login"
+              state={{ message: "You need to sign in to access the homepage" }} 
+            />
           }
         />
         <Route path="/logout" element={<Logout />} />
