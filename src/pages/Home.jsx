@@ -16,7 +16,6 @@ export default function Home() {
       {/* Main content area*/}
       <div style={{ padding: "20px", flex: 1 }}>
         <h1>Home</h1>
-        <p>Bienvenido 👋</p>
       </div>
 
     </div>
