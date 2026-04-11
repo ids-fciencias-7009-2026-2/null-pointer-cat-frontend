@@ -58,7 +58,7 @@ export default function Login() {
       const data = await res.json();
       saveToken(data.token);
       setError("");
-      navigate("/home");
+      window.location.href = "/home";
     } catch {
       setError("Connection error. Please try again.");
     }
