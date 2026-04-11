@@ -53,4 +53,33 @@ export const loginUser = (data) =>
     body: JSON.stringify(data),
   });
 
+/**
+ * Retrieves the profile of the currently authenticated user.
+ *
+ * URL:    GET /users/me
+ * Auth:   Required (Bearer token in headers)
+ *
+ * @returns {Promise<Response>} Fetch response containing the user's profile data.
+ */
+export const getProfile = () =>
+  fetch(`${BASE_URL}/me`, {
+    method: "GET",
+    headers: authHeaders(),
+  });
+
+/**
+ * Updates the profile of the currently authenticated user.
+ *
+ * URL:    PUT /users
+ * Auth:   Required (Bearer token in headers)
+ *
+ * @param {Object} data - Updated user data (e.g., username, firstname, lastname, zipcode, etc.).
+ * @returns {Promise<Response>} Fetch response with the updated user information.
+ */
+export const updateProfile = (data) =>
+  fetch(`${BASE_URL}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
   
