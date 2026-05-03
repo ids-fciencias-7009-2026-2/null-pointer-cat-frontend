@@ -66,34 +66,41 @@ export default function Login() {
 
 
 return (
-  <div className="login-container">
-    <h2 className="login-title">Log in</h2>
+  <div className="login-page">
+      <div className="login-image-side"></div>
 
-    {error && <p className="login-error">{error}</p>}
+      <div className="login-form-side">
+          <div className="login-container">
+              <h1 className="login-logo"></h1>
+              <h2 className="login-title">Sign in</h2>
 
-    <input
-      className="login-input"
-      placeholder="Email"
-      type="email"
-      value={email}
-      onChange={(e) => setEmail(e.target.value)}
-    />
+              {error && <p className="login-error">{error}</p>}
 
-    <input
-      className="login-input"
-      placeholder="Password"
-      type="password"
-      value={password}
-      onChange={(e) => setPassword(e.target.value)}
-    />
+              <input
+              className="login-input"
+              placeholder="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              />
 
-    <button className="login-button" onClick={handleLogin}>
-      Log in
-    </button>
+              <input
+              className="login-input"
+              placeholder="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              />
 
-    <p className="login-footer">
-      Don't have an account? <Link to="/register">Sign up</Link>
-    </p>
+            <button className="login-button" onClick={handleLogin}>
+            Log in
+            </button>
+
+            <p className="login-footer">
+            Don't have an account? <Link to="/register">Sign up</Link>
+            </p>
+           </div>
+       </div>
   </div>
 );
 }

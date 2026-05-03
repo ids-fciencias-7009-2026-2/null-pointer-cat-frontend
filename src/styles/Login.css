@@ -6,15 +6,47 @@
  * error messages, and footer link.
  */
 
+.login-page {
+  display: flex;
+  min-height: 100vh;
+  width: 100vw;
+  margin: 0;
+}
+
+.login-image-side {
+  display: block;
+  flex: 1;
+  background-image: url('../assets/logInDog.webp');
+  background-size: cover;
+  background-position: center;
+}
+
+.login-form-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
 /* Centers the login form on the page with a card-style appearance. */
 .login-container {
-  max-width: 320px;
+  max-width: 450px;
   margin: 100px auto;
-  padding: 2rem;
+  padding: 3rem;
   border-radius: 12px;
   background: #ffffff;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+
   text-align: center;
+}
+
+.login-logo {
+  background-image: url('../assets/logo.png');
+  background-size: cover;
+  background-position: center;
+  min-width: 150px;
+  min-height: 190px;
 }
 
 /* Title displayed at the top of the login form. */
@@ -26,35 +58,39 @@
 /* Styles shared by all input fields in the login form. */
 .login-input {
   width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1.5px solid #ccc;
+
   outline: none;
-  transition: border 0.2s;
+  transition:all 0.2s ease;
+  box-sizing : border-box;
+  font-size: 1rem
 }
 
 /* Highlights the input border when the field is focused. */
 .login-input:focus {
-  border-color: #6366f1;
+  border-color: black;
 }
 
 /* Primary action button for submitting the login form. */
 .login-button {
   width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  background: #6366f1;
+  padding: 14px;
+  margin-top: 8px;
+  background: #A3D979;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s;
+  font-size: 1rem
 }
 
 /* Darkens the button background on hover for visual feedback. */
 .login-button:hover {
-  background: #4f46e5;
+  background: #59AB67;
 }
 
 /* Displays validation or authentication error messages in red. */

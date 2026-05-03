@@ -91,6 +91,8 @@ export default function Register() {
 
 return (
   <div className="register-container">
+
+    <h1 className="login-logo"></h1>
     <h2 className="register-title">Create account</h2>
 
     {error && <p className="register-error">{error}</p>}

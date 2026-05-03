@@ -25,13 +25,15 @@
 
 /* Styles shared by all input fields in the registration form. */
 .register-input {
-  width: 100%;
-  padding: 10px;
-  margin: 6px 0;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  outline: none;
-  transition: border 0.2s;
+      width: 100%;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      border-radius: 10px;
+      border: 1.5px solid #ccc;
+      outline: none;
+      transition:all 0.2s ease;
+      box-sizing : border-box;
+      font-size: 1rem
 }
 
 /* Highlights the input border when the field is focused. */
@@ -42,19 +44,20 @@
 /* Primary action button for submitting the registration form. */
 .register-button {
   width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  background: #6366f1;
+  padding: 14px;
+  margin-top: 8px;
+  background: #A3D979;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.2s;
+  font-size: 1rem
 }
 
 /* Darkens the button background on hover for visual feedback. */
 .register-button:hover {
-  background: #4f46e5;
+  background: #59AB67;
 }
 
 /* Displays validation or server error messages in red. */
