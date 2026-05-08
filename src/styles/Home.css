@@ -1,0 +1,237 @@
+/* Home Page Layout */
+.home-page {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  min-width: 0;
+}
+ 
+.home-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: #d4cfc0BF;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: var(--shadow-sm);
+  z-index: 1000;
+}
+ 
+.home-navbar-logo {
+  font-size: 0;
+  width: 100px;
+  height: 100px;
+  margin-left: 50px;
+  padding-left: 40px;
+  background-image: url('../assets/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+ 
+.home-navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+ 
+.home-navbar-notifications {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  font-size: 20px;
+}
+ 
+.home-navbar-notifications:hover {
+  color: var(--accent-light);
+  transform: scale(1.1);
+}
+ 
+.home-navbar-profile {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 18px;
+  transition: all 0.3s ease;
+  border: 2px solid var(--border-color);
+}
+ 
+.home-navbar-profile:hover {
+  transform: scale(1.05);
+  border-color: var(--accent-light);
+  background: var(--accent-strong);
+}
+ 
+.home-navbar-profile img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.home-banner {
+  width: 100%;             
+  height: calc(60vh - 70px);
+  background: var(--accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 70px;      
+  padding: 20px;
+  box-sizing: border-box;  
+  position: relative;
+  overflow: hidden;
+}
+
+.home-banner-images-container {
+  position: absolute; 
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  z-index: 10;
+  max-width: 90%;
+}
+
+.banner-overlay-image {
+  height: 250px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.3));
+}
+
+.home-banner-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  max-width: 100%;
+  position: relative;
+  z-index: 5;
+}
+ 
+.home-banner-logo {
+  width: 1000px;
+  height: 400px;
+  background-image: url('../assets/logo-banner.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+ 
+.home-banner-title {
+  font-size: 56px;
+  font-weight: 700;
+  color: var(--accent-white);
+  text-align: center;
+  margin: 0;
+}
+ 
+.home-banner-subtitle {
+  font-size: 20px;
+  color: var(--accent-white);
+  text-align: center;
+  margin: 0;
+  opacity: 0.9;
+}
+ 
+@media (max-width: 768px) {
+  .home-navbar {
+    height: 60px;
+    padding: 0 16px;
+  }
+  
+  .home-navbar-notifications {
+    font-size: 18px;
+  }
+  
+  .home-navbar-profile {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .home-banner {
+    height: 200px;
+    margin-top: 60px;
+    gap: 20px;
+  }
+  
+  .home-banner-logo {
+    width: 280px;
+    height: 280px;
+  }
+  
+  .home-banner-title {
+    font-size: 40px;
+  }
+  
+  .home-banner-subtitle {
+    font-size: 16px;
+  }
+}
+ 
+@media (max-width: 480px) {
+  .home-navbar {
+    height: 56px;
+    padding: 0 12px;
+  }
+  
+  .home-navbar-right {
+    gap: 16px;
+  }
+  
+  .home-navbar-logo {
+    font-size: 16px;
+  }
+  
+  .home-navbar-profile {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+  
+  .home-banner {
+    height: calc(100vh - 56px);
+    margin-top: 56px;
+    gap: 15px;
+  }
+  
+  .home-banner-logo {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .home-banner-title {
+    font-size: 28px;
+  }
+  
+  .home-banner-subtitle {
+    font-size: 14px;
+  }
+}
+ 

@@ -15,6 +15,7 @@ import { getProfile } from "../services/api";
 import { getToken } from "../utils/auth";
 import Sidebar from "./Sidebar";
 import "../styles/Profile.css";
+import { BiArrowBack } from "react-icons/bi";
 
 export default function Profile() {
   const [profile, setProfile] = useState(null);
@@ -58,6 +59,16 @@ export default function Profile() {
       <Sidebar />
 
       <div className="profile-page">
+      {/* Back Button */}
+              <button
+                className="profile-back-button"
+                onClick={() => navigate("/home")}
+                title="Back to home"
+              >
+                <BiArrowBack size={20} />
+                Back
+              </button>
+
         {error && <p className="profile-error">{error}</p>}
 
         {!profile && !error && (
@@ -66,7 +77,7 @@ export default function Profile() {
 
         {profile && (
           <div className="profile-card">
-            {/* Avatar + encabezado */}
+            {/* Avatar*/}
             <div className="profile-header">
               <div className="profile-avatar">
                 {getInitials(profile.firstname, profile.lastname)}
@@ -79,7 +90,7 @@ export default function Profile() {
               </div>
             </div>
 
-            {/* Campos */}
+            {/* Profile Fields */}
             <div className="profile-fields">
               <div className="profile-row">
                 <span className="profile-label">Username</span>
@@ -103,7 +114,7 @@ export default function Profile() {
               </div>
             </div>
 
-            {/* Botón editar */}
+            {/* Edit button */}
             <button
               className="profile-edit-button"
               onClick={() => navigate("/profile/edit")}

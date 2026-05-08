@@ -90,65 +90,67 @@ export default function Register() {
   };
 
 return (
-  <div className="register-container">
+  <div className="login-page">
+    <div className="register-container">
 
-    <h1 className="login-logo"></h1>
-    <h2 className="register-title">Create account</h2>
+      <h1 className="login-logo"></h1>
+      <h2 className="register-title">Create account</h2>
 
-    {error && <p className="register-error">{error}</p>}
-    {success && <p className="register-success">{success}</p>}
+      {error && <p className="register-error">{error}</p>}
+      {success && <p className="register-success">{success}</p>}
 
-    <input
-      className="register-input"
-      name="username"
-      placeholder="Username"
-      onChange={handleChange}
-    />
+      <input
+        className="register-input"
+        name="username"
+        placeholder="Username"
+        onChange={handleChange}
+      />
 
-    <input
-      className="register-input"
-      name="firstname"
-      placeholder="First name"
-      onChange={handleChange}
-    />
+      <input
+        className="register-input"
+        name="firstname"
+        placeholder="First name"
+        onChange={handleChange}
+      />
 
-    <input
-      className="register-input"
-      name="lastname"
-      placeholder="Last name"
-      onChange={handleChange}
-    />
+      <input
+        className="register-input"
+        name="lastname"
+        placeholder="Last name"
+        onChange={handleChange}
+      />
 
-    <input
-      className="register-input"
-      name="email"
-      placeholder="Email"
-      type="email"
-      onChange={handleChange}
-    />
+      <input
+        className="register-input"
+        name="email"
+        placeholder="Email"
+        type="email"
+        onChange={handleChange}
+      />
 
-    <input
-      className="register-input"
-      name="password"
-      placeholder="Password"
-      type="password"
-      onChange={handleChange}
-    />
+      <input
+        className="register-input"
+        name="password"
+        placeholder="Password"
+        type="password"
+        onChange={handleChange}
+      />
 
-    <input
-      className="register-input"
-      name="zipcode"
-      placeholder="Zip code"
-      onChange={handleChange}
-    />
+      <input
+        className="register-input"
+        name="zipcode"
+        placeholder="Zip code"
+        onChange={handleChange}
+      />
 
-    <button className="register-button" onClick={handleRegister}>
-      Sign up
-    </button>
+      <button className="register-button" onClick={handleRegister}>
+        Sign up
+      </button>
 
-    <p className="register-footer">
-      Already have an account? <Link to="/login">Log in</Link>
-    </p>
+      <p className="register-footer">
+        Already have an account? <Link to="/login">Log in</Link>
+      </p>
+    </div>
   </div>
 );
 

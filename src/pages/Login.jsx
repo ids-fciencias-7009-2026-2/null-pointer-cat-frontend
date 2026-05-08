@@ -97,7 +97,9 @@ return (
             </button>
 
             <p className="login-footer">
-            Don't have an account? <Link to="/register">Sign up</Link>
+            Don't have an account? <Link to="/register"><span style={{ textDecoration: 'underline' }}>
+            Sign up
+            </span></Link>
             </p>
            </div>
        </div>

@@ -1,119 +1,186 @@
-/**
- * Styles for the Profile page component.
- *
- * Defines the layout and visual appearance of the profile card,
- * avatar, field rows, edit button, and feedback messages.
- */
-
-/* Main content area next to the sidebar */
 .profile-page {
   flex: 1;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   padding: 60px 20px;
+  background: var(--bg-primary);
 }
 
-/* Card wrapper for the profile info */
+/* Back Button */
+.profile-back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid var(--border-color);
+  background: var(--accent-light);
+  color: var(--accent-white);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  margin-bottom: 24px;
+  align-self: flex-start;
+  margin-right: 40px;
+}
+ 
+.profile-back-button:hover {
+  background: var(--accent-strong);
+  box-shadow: var(--shadow-md);
+}
+ 
+.profile-back-button:active {
+  background: var(--accent-light);
+  color: white;
+}
+ 
 .profile-card {
   width: 100%;
-  max-width: 460px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
+  max-width: 500px;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  padding: 2.5rem;
 }
-
-/* Top section: avatar*/
+ 
 .profile-header {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border-color);
 }
-
-/* Initials avatar circle */
+ 
 .profile-avatar {
-  width: 52px;
-  height: 52px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background: #ede9fe;
-  color: #4f46e5;
+  background: var(--accent-light);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 500;
-  font-size: 16px;
+  font-weight: 700;
+  font-size: 24px;
   flex-shrink: 0;
 }
-
-/* Full name displayed in the header */
+ 
 .profile-name {
   margin: 0;
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #111;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
 }
-
-/* Email displayed below the name in the header */
+ 
 .profile-email {
-  margin: 0;
-  font-size: 0.85rem;
-  color: #666;
+  margin: 4px 0 0 0;
+  font-size: 13px;
+  color: var(--text-secondary);
 }
-
-/* Container for the field rows */
+ 
 .profile-fields {
-  border-top: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
-
-/* Individual label–value row */
+ 
 .profile-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-color);
 }
-
-/* Muted label on the left side of each row */
+ 
+.profile-row:last-child {
+  border-bottom: none;
+}
+ 
 .profile-label {
-  font-size: 0.85rem;
-  color: #888;
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
-
-/* Value on the right side of each row */
+ 
 .profile-value {
-  font-size: 0.9rem;
-  color: #111;
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 500;
+  text-align: right;
 }
-
-/* Button that navigates to /profile/edit */
+ 
 .profile-edit-button {
   width: 100%;
-  padding: 10px;
-  margin-top: 1.5rem;
-  background: #6366f1;
-  color: white;
+  padding: 14px;
+  margin-top: 2rem;
+  background: var(--accent-strong);
+  color: var(--accent-white);
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 0.95rem;
-  transition: background 0.2s;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: var(--transition);
 }
-
+ 
 .profile-edit-button:hover {
-  background: #4f46e5;
+  background: #0f2824;
+  box-shadow: var(--shadow-md);
 }
-
-/* Loading state text */
+ 
+ 
 .profile-loading {
-  color: #888;
-  font-size: 0.9rem;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  text-align: center;
+  padding: 40px;
 }
-
-/* Error message displayed if the fetch fails */
+ 
 .profile-error {
-  color: red;
+  color: #c33;
   font-size: 0.9rem;
+  background: rgba(204, 51, 51, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+ 
+@media (max-width: 640px) {
+  .profile-page {
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .profile-card {
+    padding: 1.5rem;
+  }
+  
+  .profile-header {
+    gap: 12px;
+  }
+  
+  .profile-avatar {
+    width: 56px;
+    height: 56px;
+    font-size: 20px;
+  }
+  
+  .profile-name {
+    font-size: 16px;
+  }
+
+  .profile-back-button {
+    align-self: center;
+    margin-right: 0;
+    margin-top: 20px;
+    margin-bottom: 16px;
+    width: 100%;
+    justify-content: center;
+  }
 }
