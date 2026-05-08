@@ -1,0 +1,107 @@
+.feed-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 32px;
+}
+
+.feed-message {
+  text-align: center;
+  padding: 48px;
+  color: var(--text-primary);
+  opacity: 0.6;
+}
+
+.feed-error {
+  color: #c0392b;
+}
+
+.feed-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feed-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.feed-card-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: var(--border-color);
+}
+
+.feed-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.feed-card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.feed-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.feed-card-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.feed-card-species {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--border-color);
+  color: var(--text-primary);
+}
+
+.feed-card-breed {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  opacity: 0.6;
+  margin: 0;
+}
+
+.feed-card-description {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.feed-card-footer {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.feed-card-tag {
+  font-size: 0.78rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--accent-light);
+  color: white;
+  font-weight: 600;
+}
