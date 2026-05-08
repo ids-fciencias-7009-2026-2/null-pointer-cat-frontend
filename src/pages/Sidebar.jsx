@@ -1,76 +1,89 @@
-import { useState, useRef, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "../styles/Sidebar.css";
-import { FiMenu } from "react-icons/fi";
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import '../styles/Sidebar.css'
+import { BiUser, BiLogOut } from 'react-icons/bi'
 
-/**
- * Sidebar component.
- * 
- * Provides navigation and user options.
- * Includes a "More" dropdown with actions like Profile and Logout.
- */
 export default function Sidebar() {
-  const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
-  const dropdownRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false)
+  const navigate = useNavigate()
 
-  /**
-   * Handles logout navigation.
-   */
-  const handleLogout = () => {
-    navigate("/logout");
-  };
-
-  /**
-   * Closes the dropdown of more-menu when clicking outside of it.
-   */
   useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target)
-    ) {
-      setOpen(false);
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false)
+      }
     }
-  };
 
-  document.addEventListener("mousedown", handleClickOutside);
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape)
+      document.body.style.overflow = 'hidden'
+    }
 
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, []);
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+      document.body.style.overflow = 'unset'
+    }
+  }, [isOpen])
+
+  const handleNavigate = (path) => {
+    navigate(path)
+    setIsOpen(false)
+  }
+
+  const handleLogout = () => {
+    navigate('/logout')
+    setIsOpen(false)
+  }
 
   return (
-    <div className="sidebar">
-      {/* Upper options, later to be added*/}
-      <div className="sidebar-top">
-        <h2>Sidebar</h2>
-      </div>
+    <>
+      {/* Hamburger Button */}
+      <button
+        className={`hamburger-button ${isOpen ? 'active' : ''}`}
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Toggle sidebar"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-      {/* Lower menu that shows user preferences and logout button*/}
-      <div className="sidebar-bottom" ref={dropdownRef}>
-        <button 
-          className="more-button"
-          onClick={() => setOpen(!open)}
-        >
-          <FiMenu size={18} />
-          More
-        </button>
+      {/* Overlay */}
+      <div
+        className={`sidebar-overlay ${isOpen ? 'active' : ''}`}
+        onClick={() => setIsOpen(false)}
+      />
 
-        {/* Dropdown menu */}
-        {open && (
-          <div className="dropdown">
-            <button onClick={() => navigate("/profile")}>
-              Profile
-            </button>
+      {/* Sidebar */}
+      <aside className={`sidebar ${isOpen ? 'active' : ''}`}>
+        <div className="sidebar-header">
+          <h1>AdoptaPet</h1>
+        </div>
 
-            <button onClick={handleLogout}>
-              Logout
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+        <div className="sidebar-content">
+          <ul className="sidebar-menu">
+            <li>
+              <button
+                className="sidebar-menu-item"
+                onClick={() => handleNavigate('/profile')}
+              >
+                <BiUser />
+                Profile
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        <div className="sidebar-footer">
+          <button
+            className="sidebar-footer-button logout"
+            onClick={handleLogout}
+          >
+            <BiLogOut />
+            Logout
+          </button>
+        </div>
+      </aside>
+    </>
+  )
 }

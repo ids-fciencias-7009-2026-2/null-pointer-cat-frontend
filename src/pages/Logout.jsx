@@ -9,7 +9,7 @@ export default function Logout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    removeToken(); // clear authentication token
+    removeToken(); 
     navigate("/login"); 
   }, [navigate]);
 
