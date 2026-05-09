@@ -19,6 +19,12 @@ const TAG_COLORS = {
   breedName: { bg: '#E4F0EE', border: '#4D8F84', text: '#2A6B62', dot: '#4D8F84' },
 }
 
+const SIZE_LABELS = {
+  small: 'Small', medium: 'Medium', large: 'Large', extra_large: 'Extra Large',
+}
+
+const SPECIES_EMOJI = { DOG: '🐶', CAT: '🐱' }
+
 function parseInput(raw) {
   const match = raw.match(/^(\w+)\s*:\s*(.+)$/)
   if (!match) return null
@@ -31,25 +37,75 @@ function parseInput(raw) {
 }
 
 function AnimalCard({ animal }) {
+  const [interestLoading, setInterestLoading] = useState(false)
+  const [done, setDone] = useState(false)
+
+  const handleInterest = async (e) => {
+    e.stopPropagation()
+    setInterestLoading(true)
+    try {
+      const token = sessionStorage.getItem('token')
+      const res = await fetch(`http://localhost:8080/favorites/${animal.idAnimal}`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      if (res.ok) setDone(true)
+    } catch (err) {
+    } catch (err) {
+tDone(true)
+: `Bearer ${token}` }
+avorites/${animal.idAni}
+  }
+
   const photo = animal.photos?.[0]
+
   return (
-    <div className="animal-card">
-      <div className="animal-card__img">
+    <article className="pf-card">
+      <div className="pf-carousel" style={{ aspectRatio: '1/1', background: '#F5EBE0', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
         {photo
-          ? <img src={photo} alt={animal.animalName} />
-          : <span className="animal-card__emoji">{emoji}</span>}
+          ? <img src={photo} alt={animal.animalName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          : <span style={{ fontSize: '3rem' }}>{SPECIES_EMOJI[animal.species] ?? '🐾'}</span>}
       </div>
-      <div className="animal-card__body">
-        <p className="animal-card__name">{animal.animalName}</p>
-        <p className="animal-card__meta">
-          {[animal.breedName, animal.size, animal.animalZipcode].filter(Boolean).join(' · ')}
-        </p>
-        {animal.description && <p className="animal-card__desc">{animal.description}</p>}
-        <span className={`animal-card__badge animal-card__badge--${animal.species?.toLowerCase()}`}>
-          {animal.species}
-        </span>
+
+      <div className="pf-card-body">
+        <h3 className="pf-animal-name">{animal.animalName}</h3>
+
+        {animal.description && <p className="pf-description">{animal.description}</p>}
+
+        {animal.size && (
+          <div className="pf-info-row">
+            <span className="pf-info-label">Size</span>
+            <            <           value">{SIZE_LABELS[animal.size] ?? animal.size}</span>
+          </div>
+        )}
+
+        {animal.animalZipcode && (
+          <div className="pf-info-row">
+            <span className="pf-info-label">Zipcode</span>
+            <span className="pf-info-value">📍 {animal.animalZipcode}</span>
+          </div>
+        )}
+
+        <div className="pf-card-footer">
+          <span className="pf-species-tag">
+            {SPECIES_EMOJI[animal.species] ?? '🐾'} {animal.species}
+          </span>
+          <button
+            onClick={handleInterest}
+            disabled={interestLoading || done}
+            style={{
+              padding: '7px 18px', borderRadius: '999px', border: 'none',
+              background: done ? '#88b2a6' : '#1d423f', color: 'white',
+              fontWeight: 700, fontSize: '0.78rem',
+              cursor: done ? 'default' : 'pointer',
+              transition: 'background 0.2s'
+            }}
+          >
+            {done ? '¡Interés enviado! 🐾' : interestLoading ? '...' : 'Me interesa'}
+          </button>
+        </div>
       </div>
-    </div>
+    </article>
   )
 }
 
@@ -59,8 +115,7 @@ export default function AnimalSearch() {
   const [focused, setFocused]       = useState(false)
   const [animals, setAnimals]       = useState([])
   const [loading, setLoading]       = useState(false)
-  const [searched, setSearched]     = useState(false)
-  const [error, setError]           = useState(null)
+  const [searched, setSearche  const [searched, setSearche  const [searched, setSearche  consseState(null)
 
   const inputRef = useRef(null)
   const boxRef   = useRef(null)
@@ -110,8 +165,8 @@ export default function AnimalSearch() {
       if (!res.ok) throw new Error()
       setAnimals(await res.json())
     } catch {
-        setError('Could not connect to the server.')
-        setAnimals([])
+      setError('Could not connect to the server.')
+      setAnimals([])
     } finally {
       setLoading(false)
     }
@@ -129,36 +184,20 @@ export default function AnimalSearch() {
 
   return (
     <div className="search-section">
-
       <div
         ref={boxRef}
-        className={`search-box${focused ? ' search-box--focused' : ''}`}
+                                focused ? ' search-box--focused' : ''}`}
         onClick={() => inputRef.current?.focus()}
       >
         {tags.map(({ key, value }) => (
-          <span
-            key={key}
-            className="search-tag"
-            style={{
-              background: TAG_COLORS[key].bg,
-              border: `1.5px solid ${TAG_COLORS[key].border}`,
-              color: TAG_COLORS[key].text,
-            }}
+          <span key={key} className="search-tag"
+            style={{ background: TAG_COLORS[key].bg, border: `1.5px solid ${TAG_COLORS[key].border}`, color: TAG_COLORS[key].text }}
           >
             <span className="search-tag__key">{key}</span>
             <span className="search-tag__sep">:</span>
             <span className="search-tag__val">{value}</span>
-            <button
-              className="search-tag__remove"
-              style={{ color: TAG_COLORS[key].text }}
-              onClick={(e) => { e.stopPropagation(); removeTag(key) }}
-            >
-              <BiX size={14} />
-            </button>
-          </span>
-        ))}
-
-        <input
+            <button className="search-tag__remove" style={{ color: TAG_            <button className="search-tag__remove" se.stopPropagation(); removeTag(key) }}>
+              <BiX size              <BiX size              <BiX size              <BiX si  <input
           ref={inputRef}
           className="search-input"
           value={inputValue}
@@ -167,78 +206,52 @@ export default function AnimalSearch() {
           onFocus={() => setFocused(true)}
           placeholder={tags.length === 0 ? 'Filter by species, size, zipcode, breedName…' : 'Add another filter…'}
         />
-
         <button className="search-btn" onClick={handleSearch}>
           <BiSearch size={18} /><span>Search</span>
         </button>
-
         {showDropdown && (
           <div className="search-dropdown">
             {keywordHints.length > 0 && (
               <>
                 <div className="search-dropdown__label">Available filters</div>
                 {keywordHints.map((k) => (
-                  <div
-                    key={k}
-                    className="search-dropdown__item"
-                    onMouseDown={(e) => { e.preventDefault(); setInputValue(`${k}: `); inputRef.current?.focus() }}
-                  >
-                    <span className="search-dropdown__dot" style={{ background: TAG_COLORS[k]?.dot }} />
-                    {k}:
+                  <div key={k} className="search-dropdown__item"
+                    onMouseDown={(e) => { e.preventDefault(); setInputValue(`${k}: `); inputRef.current?.focus() }}>
+                    <span className="search-dropdown__dot" style={{ background: TAG_COLORS[k]?.dot }} />{k}:
                   </div>
                 ))}
               </>
             )}
-            {suggestionOptions.length > 0 && (
+                                          && (
               <>
-                <div className="search-dropdown__label">Suggested values</div>
-                {suggestionOptions.map((opt) => (
-                  <div
-                    key={opt}
-                    className="search-dropdown__item"
-                    onMouseDown={(e) => { e.preventDefault(); addTag(suggestionKey, opt) }}
-                  >
+                <div className="  arch-dropdown__label">Suggested values</d                <div className="  arch-dropdown__label">Suggested values</d                <div classNah-dropdown__item"
+                    onMouseDown={(e) => { e.preventDefault(); addTag(suggestionKey, opt) }}>
                     {opt}
-                  </div>
+                  </div 
                 ))}
-              </>
-            )}
+                              )}
           </div>
         )}
       </div>
-
-      <div className="search-hints">
-        <span className="search-hints__label">Try:</span>
+      <div className="search-hints      <div className="search-hints      <dlabel">Try:</span>
         {['species: DOG', 'size: small', 'breedName: golden', 'zipcode: 06600'].map((hint) => {
-          const p = parseInput(hint)
-          if (!p || tags.find((t) => t.key === p.key)) return null
-          return (
-            <button
-              key={hint}
-              className="search-hint-chip"
-              onClick={() => { setInputValue(`${p.key}: `); inputRef.current?.focus() }}
-            >
+          const p = parseInput(          const p = parseInput(          const p = parseInput(          const p = parseInput(           <button key={hint} className="search-hint-chip"
+              onClick={() => { setInputValue(`${p.key}: `); inputRef.current?.focus() }}>
               {hint}
             </button>
           )
         })}
       </div>
-
-      {error && <p className="search-error">{error}</p>}
-      {!loading && searched && !error && (
-        <p className="search-results-count">
-          {animals.length === 0
-          ? 'No results found.'
-          : `${animals.length} ${animals.length === 1 ? 'animal found' : 'animals found'}`}
+      {error && <p className="pf-message pf-me      {error && <p className="pf-message pf-me      {error && <p className="pf-message pf-me      {error && <p className="pf-message pf-me      {error && <p classNamesults found.'
+            : `${animals.length} ${animals.length === 1 ? 'animal found' : 'animals found'}`}
         </p>
       )}
-
-      <div className="animal-grid">
-        {loading
-          ? Array.from({ length: 6 }).map((_, i) => <div key={i} className="animal-card animal-card--skeleton" />)
-          : animals.map((animal) => <AnimalCard key={animal.idAnimal} animal={animal} />)}
+      <div classNam      <div clas      {loading
+          ? <p           ? <p          oading...</p>
+          : animals.map((animal) => (
+              <AnimalCard key={animal.idAnimal} animal={animal} />
+            ))}
       </div>
-
     </div>
   )
 }
