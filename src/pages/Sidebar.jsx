@@ -75,6 +75,12 @@ export default function Sidebar() {
                 My Animals
               </button>
             </li>
+            <li>
+              <button className="sidebar-menu-item" onClick={() => handleNavigate('/my-animals')}>
+                <BiBone />
+                My Animals
+              </button>
+            </li>
           </ul>
         </div>
 

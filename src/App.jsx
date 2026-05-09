@@ -1,3 +1,13 @@
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import Register from "./pages/Register"
+import Login from "./pages/Login"
+import Home from "./pages/Home"
+import Logout from "./pages/Logout"
+import Profile from "./pages/Profile"
+import ProfileEdit from "./pages/ProfileEdit.jsx"
+import MyAnimals from "./pages/MyAnimals"
+import RegisterAnimal from "./pages/RegisterAnimal"
+import { getToken } from "./utils/auth"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -33,6 +43,10 @@ export default function App() {
         <Route
           path="/home"
           element={isAuthenticated ? <Home /> : <Navigate to="/login" state={{ message: "You need to sign in to access the homepage" }} />}
+        />
+        <Route
+          path="/animal/:id"
+          element={isAuthenticated ? <AnimalDetail /> : <Navigate to="/login" />}
         />
         <Route path="/logout" element={<Logout />} />
         <Route 
