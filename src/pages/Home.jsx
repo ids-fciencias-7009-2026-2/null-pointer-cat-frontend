@@ -6,6 +6,7 @@ import Post from './Post'
 import PostFeed from './PostFeed'
 import '../styles/Home.css'
 import { BiBell } from 'react-icons/bi'
+import AnimalSearch from './AnimalSearch'
 
 export default function Home() {
   const [userInitials, setUserInitials] = useState('?')
@@ -74,6 +75,8 @@ export default function Home() {
           <div className="home-banner-logo"></div>
         </div>
       </div>
+
+      <AnimalSearch />
 
       <PostFeed refresh={feedRefresh} />
 
