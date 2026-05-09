@@ -1,49 +1,46 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import Logout from "./pages/Logout";
-import Profile from "./pages/Profile";
-import ProfileEdit from "./pages/ProfileEdit.jsx";
-import AnimalDetail from "./pages/AnimalDetail";
-import { getToken } from "./utils/auth";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import Register from "./pages/Register"
+import Login from "./pages/Login"
+import Home from "./pages/Home"
+import Logout from "./pages/Logout"
+import Profile from "./pages/Profile"
+import ProfileEdit from "./pages/ProfileEdit.jsx"
+import MyAnimals from "./pages/MyAnimals"
+import RegisterAnimal from "./pages/RegisterAnimal"
+import { getToken } from "./utils/auth"
 
 export default function App() {
-  const isAuthenticated = !!getToken();
+  const isAuthenticated = !!getToken()
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
+
         <Route
           path="/home"
-          element={
-            isAuthenticated ? <Home /> : 
-            <Navigate 
-              to="/login"
-              state={{ message: "You need to sign in to access the homepage" }} 
-            />
-          }
+          element={isAuthenticated ? <Home /> : <Navigate to="/login" state={{ message: "You need to sign in to access the homepage" }} />}
         />
         <Route
-          path="/animal/:id"
-          element={isAuthenticated ? <AnimalDetail /> : <Navigate to="/login" />}
+          path="/profile"
+          element={isAuthenticated ? <Profile /> : <Navigate to="/login" />}
         />
-        <Route path="/logout" element={<Logout />} />
-        <Route 
-          path="/profile" 
-          element={
-            isAuthenticated ? <Profile /> : <Navigate to="/login" />
-          } 
+        <Route
+          path="/profile/edit"
+          element={isAuthenticated ? <ProfileEdit /> : <Navigate to="/login" />}
         />
-        <Route 
-          path="/profile/edit" 
-          element={
-            isAuthenticated ? <ProfileEdit /> : <Navigate to="/login" />
-          } 
+        <Route
+          path="/my-animals"
+          element={isAuthenticated ? <MyAnimals /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/register-animal"
+          element={isAuthenticated ? <RegisterAnimal /> : <Navigate to="/login" />}
         />
       </Routes>
     </BrowserRouter>
-  );
+  )
 }
