@@ -2,39 +2,34 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getToken } from '../utils/auth'
 import Sidebar from './Sidebar'
-import Post from './Post'
 import PostFeed from './PostFeed'
+import Post from './Post'
 import '../styles/Home.css'
 import { BiBell } from 'react-icons/bi'
-import AnimalSearch from './AnimalSearch'
 
-export default function Home() {
-  const [userInitials, setUserInitials]   = useState('?')
+/**
+ * MyPosts page — shows only the posts published by the authenticated user.
+ * Reuses PostFeed with a custom fetch URL (GET /post/me).
+ */
+export default function MyPosts() {
+  const [userInitials, setUserInitials] = useState('?')
   const [showPostModal, setShowPostModal] = useState(false)
-  const [feedRefresh, setFeedRefresh]     = useState(0)
-  const [searchActive, setSearchActive]   = useState(false)
+  const [feedRefresh, setFeedRefresh] = useState(0)
   const navigate = useNavigate()
 
   useEffect(() => {
     const token = getToken()
-    if (!token) {
-      navigate('/login')
-      return
-    }
+    if (!token) { navigate('/login'); return }
 
     const userData = JSON.parse(sessionStorage.getItem('userData') || '{}')
     if (userData.firstname && userData.lastname) {
-      const initials = `${userData.firstname[0]}${userData.lastname[0]}`.toUpperCase()
-      setUserInitials(initials)
+      setUserInitials(
+        `${userData.firstname[0]}${userData.lastname[0]}`.toUpperCase()
+      )
     }
   }, [navigate])
 
-  const handleProfileClick = () => {
-    navigate('/profile')
-  }
-
-  const handlePostSuccess = (data) => {
-    console.log('Post created:', data)
+  const handlePostSuccess = () => {
     setFeedRefresh(prev => prev + 1)
   }
 
@@ -45,21 +40,16 @@ export default function Home() {
 
         <div className="home-page">
 
-          {/* Fixed Navigation Bar */}
+          {/* ── Navbar ── */}
           <nav className="home-navbar">
-            <div className="home-navbar-logo">Paws!</div>
-
+            <div className="home-navbar-logo" />
             <div className="home-navbar-right">
-              <button
-                className="home-navbar-notifications"
-                title="Notifications (coming soon)"
-              >
+              <button className="home-navbar-notifications" title="Notifications (coming soon)">
                 <BiBell size={24} />
               </button>
-
               <div
                 className="home-navbar-profile"
-                onClick={handleProfileClick}
+                onClick={() => navigate('/profile')}
                 title="Go to profile"
               >
                 {userInitials}
@@ -67,31 +57,24 @@ export default function Home() {
             </div>
           </nav>
 
-          {/* Banner Section */}
-          <div className="home-banner">
-            <div className="home-banner-content">
-              <div className="home-banner-logo"></div>
-            </div>
+          {/* ── Page header ── */}
+          <div className="my-posts-header">
+            <h1 className="my-posts-title">My posts</h1>
+            <button
+              className="my-posts-new-btn"
+              onClick={() => setShowPostModal(true)}
+            >
+              + New post
+            </button>
           </div>
 
-          {/* Search — notifies Home when a filter search is active */}
-          <AnimalSearch onSearchActive={setSearchActive} />
+          {/* ── Feed filtered to current user ── */}
+          <PostFeed refresh={feedRefresh} endpoint="http://localhost:8080/post/me" />
 
-          {/* Feed — hidden while the user has an active search */}
-          {!searchActive && <PostFeed refresh={feedRefresh} />}
-
-          {/* Publish button */}
-          <button
-            className="home-publish-btn"
-            onClick={() => setShowPostModal(true)}
-          >
-            + Publish animal
-          </button>
-
-          {/* Post Modal */}
+          {/* ── New post modal ── */}
           {showPostModal && (
             <div className="modal-overlay" onClick={() => setShowPostModal(false)}>
-              <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-container" onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
                   <h2 className="modal-title">New post</h2>
                   <button className="modal-close" onClick={() => setShowPostModal(false)}>✕</button>
