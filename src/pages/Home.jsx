@@ -11,6 +11,7 @@ export default function Home() {
   const [userInitials, setUserInitials] = useState('?')
   const [showPostModal, setShowPostModal] = useState(false)
   const [feedRefresh, setFeedRefresh] = useState(0)
+  const [currentUserId, setCurrentUserId] = useState(null) 
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -21,10 +22,13 @@ export default function Home() {
     }
 
     const userData = JSON.parse(sessionStorage.getItem('userData') || '{}')
+    console.log(userData)
+
     if (userData.firstname && userData.lastname) {
       const initials = `${userData.firstname[0]}${userData.lastname[0]}`.toUpperCase()
       setUserInitials(initials)
     }
+    setCurrentUserId(userData.id)
   }, [navigate])
 
   const handleProfileClick = () => {
@@ -75,7 +79,12 @@ export default function Home() {
         </div>
       </div>
 
-      <PostFeed refresh={feedRefresh} />
+      {/* Feed */}
+      <PostFeed
+        refresh={feedRefresh}
+        currentUserId={currentUserId}
+        onRefresh={() => setFeedRefresh(prev => prev + 1)}
+      />
 
       {/*Publish button*/}
       <button
