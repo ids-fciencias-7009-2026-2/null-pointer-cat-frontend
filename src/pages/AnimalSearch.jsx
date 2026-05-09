@@ -31,7 +31,7 @@ function parseInput(raw) {
   return { key: normalized, value: val }
 }
 
-export default function AnimalSearch() {
+export default function AnimalSearch({ onSearchActive }) {
   const [tags, setTags]             = useState([])
   const [inputValue, setInputValue] = useState('')
   const [focused, setFocused]       = useState(false)
@@ -69,6 +69,15 @@ export default function AnimalSearch() {
 
   const removeTag = (key) => setTags((prev) => prev.filter((t) => t.key !== key))
 
+  const handleClear = () => {
+    setTags([])
+    setInputValue('')
+    setSearched(false)
+    setAnimals([])
+    setError(null)
+    onSearchActive?.(false)
+  }
+
   const handleKeyDown = (e) => {
     if ((e.key === 'Enter' || e.key === ',') && inputValue.trim()) {
       e.preventDefault()
@@ -80,22 +89,44 @@ export default function AnimalSearch() {
     }
   }
 
-  const handleSearch = async () => {
-    setLoading(true); setError(null); setSearched(true)
+  const handleSearch = useCallback(async (activeTags) => {
+    const tagsToUse = activeTags ?? tags
+    setLoading(true)
+    setError(null)
+    setSearched(true)
     try {
-      const filters = tags.reduce((acc, { key, value }) => ({ ...acc, [key]: value }), {})
+      const filters = tagsToUse.reduce((acc, { key, value }) => ({ ...acc, [key]: value }), {})
       const res = await searchAnimals(filters)
       if (!res.ok) throw new Error()
-      setAnimals(await res.json())
+      const data = await res.json()
+      setAnimals(data)
+      onSearchActive?.(tagsToUse.length > 0)
     } catch {
       setError('Could not connect to the server.')
       setAnimals([])
+      onSearchActive?.(false)
     } finally {
       setLoading(false)
     }
-  }
+  }, [tags, onSearchActive])
 
-  useEffect(() => { handleSearch() }, []) // eslint-disable-line
+  useEffect(() => {
+    const fetchInitial = async () => {
+      setLoading(true)
+      try {
+        const res = await searchAnimals({})
+        if (!res.ok) throw new Error()
+        setAnimals(await res.json())
+      } catch {
+        setError('Could not connect to the server.')
+      } finally {
+        setLoading(false)
+        setSearched(false)
+        onSearchActive?.(false)
+      }
+    }
+    fetchInitial()
+  }, [])
 
   useEffect(() => {
     const handler = (e) => {
@@ -137,7 +168,12 @@ export default function AnimalSearch() {
           placeholder={tags.length === 0 ? 'Filter by species, size, zipcode, breedName…' : 'Add another filter…'}
         />
 
-        <button className="search-btn" onClick={handleSearch}>
+        {tags.length > 0 && (
+          <button className="search-clear-btn" onClick={handleClear}>
+            <BiX size={16} /><span>Clear</span>
+          </button>
+        )}
+        <button className="search-btn" onClick={() => handleSearch(tags)}>
           <BiSearch size={18} /><span>Search</span>
         </button>
 
@@ -192,28 +228,33 @@ export default function AnimalSearch() {
         </p>
       )}
 
-      <div className="pf-grid">
-        {loading
-          ? <p className="pf-message">Loading...</p>
-          : animals.map((animal) => (
-              <PostCard
-                key={animal.idAnimal}
-                post={{
-                  idPost:             animal.idAnimal,
-                  animalName:         animal.animalName,
-                  species:            animal.species,
-                  size:               animal.size,
-                  description:        animal.description,
-                  dateOfBirth:        animal.dateOfBirth,
-                  animalZipcode:      animal.animalZipcode,
-                  createdAt:          animal.publishedAt,
-                  photos:             animal.photos,
-                  publisherFirstname: '',
-                  publisherLastname:  '',
-                }}
-              />
-            ))}
-      </div>
+      {/* Only show animal results when there are active tags (user searched) */}
+      {tags.length > 0 && (
+        <div className="pf-grid">
+          {loading
+            ? <p className="pf-message">Loading...</p>
+            : animals.map((animal) => (
+                <PostCard
+                  key={animal.idAnimal}
+                  post={{
+                    idPost:             animal.idAnimal,
+                    animalName:         animal.animalName,
+                    species:            animal.species,
+                    size:               animal.size,
+                    description:        animal.description,
+                    animalDescription:  animal.description,
+                    dateOfBirth:        animal.dateOfBirth,
+                    animalZipcode:      animal.animalZipcode,
+                    createdAt:          animal.publishedAt,
+                    photos:             animal.photos,
+                    publisherUsername:  animal.publisherUsername,
+                    publisherFirstname: animal.publisherFirstname,
+                    publisherLastname:  animal.publisherLastname,
+                  }}
+                />
+              ))}
+        </div>
+      )}
 
     </div>
   )
