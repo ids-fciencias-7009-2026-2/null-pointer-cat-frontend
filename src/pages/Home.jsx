@@ -6,12 +6,15 @@ import Post from './Post'
 import PostFeed from './PostFeed'
 import '../styles/Home.css'
 import { BiBell } from 'react-icons/bi'
+import AnimalSearch from './AnimalSearch'
 
 export default function Home() {
-  const [userInitials, setUserInitials] = useState('?')
+  const [userInitials, setUserInitials]   = useState('?')
   const [showPostModal, setShowPostModal] = useState(false)
   const [feedRefresh, setFeedRefresh] = useState(0)
   const [currentUserId, setCurrentUserId] = useState(null) 
+  const [feedRefresh, setFeedRefresh]     = useState(0)
+  const [searchActive, setSearchActive]   = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -40,44 +43,44 @@ export default function Home() {
     setFeedRefresh(prev => prev + 1)
   }
 
-  
-
-
   return (
     <>
       <div style={{ display: 'flex' }}>
-    <Sidebar />
+        <Sidebar />
 
-      <div className="home-page">
-        
-        {/*Fixed Navigation Bar*/}
-        <nav className="home-navbar">
-          <div className="home-navbar-logo">Paws!</div>
-          
-          <div className="home-navbar-right">
-            <button 
-              className="home-navbar-notifications"
-              title="Notifications (coming soon)"
-            >
-              <BiBell size={24} />
-            </button>
-            
-            <div 
-              className="home-navbar-profile"
-              onClick={handleProfileClick}
-              title="Go to profile"
-            >
-              {userInitials}
+        <div className="home-page">
+
+          {/* Fixed Navigation Bar */}
+          <nav className="home-navbar">
+            <div className="home-navbar-logo">Paws!</div>
+
+            <div className="home-navbar-right">
+              <button
+                className="home-navbar-notifications"
+                title="Notifications (coming soon)"
+              >
+                <BiBell size={24} />
+              </button>
+
+              <div
+                className="home-navbar-profile"
+                onClick={handleProfileClick}
+                title="Go to profile"
+              >
+                {userInitials}
+              </div>
+            </div>
+          </nav>
+
+          {/* Banner Section */}
+          <div className="home-banner">
+            <div className="home-banner-content">
+              <div className="home-banner-logo"></div>
             </div>
           </div>
-        </nav>
 
-        {/*Banner Section*/}
-      <div className="home-banner">
-        <div className="home-banner-content">
-          <div className="home-banner-logo"></div>
-        </div>
-      </div>
+          {/* Search — notifies Home when a filter search is active */}
+          <AnimalSearch onSearchActive={setSearchActive} />
 
       {/* Feed */}
       <PostFeed
@@ -85,16 +88,18 @@ export default function Home() {
         currentUserId={currentUserId}
         onRefresh={() => setFeedRefresh(prev => prev + 1)}
       />
+          {/* Feed — hidden while the user has an active search */}
+          {!searchActive && <PostFeed refresh={feedRefresh} />}
 
-      {/*Publish button*/}
-      <button
-        className="home-publish-btn"
-        onClick={() => setShowPostModal(true)}
-      >
-        + Publish animal
-      </button>
+          {/* Publish button */}
+          <button
+            className="home-publish-btn"
+            onClick={() => setShowPostModal(true)}
+          >
+            + Publish animal
+          </button>
 
-      {/*Post Modal*/}
+          {/* Post Modal */}
           {showPostModal && (
             <div className="modal-overlay" onClick={() => setShowPostModal(false)}>
               <div className="modal-container" onClick={(e) => e.stopPropagation()}>
@@ -109,8 +114,9 @@ export default function Home() {
               </div>
             </div>
           )}
-    </div>
-  </div>
-  </>
+
+        </div>
+      </div>
+    </>
   )
 }

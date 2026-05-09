@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { getToken } from '../utils/auth'
+import { useNavigate } from 'react-router-dom';
 import '../styles/PostFeed.css'
 import EditPost from './EditPost'
 
@@ -44,7 +45,7 @@ function calcAge(dateOfBirth) {
 
 // ─── Carousel ───────────────────────────────────────────────────────────────
 
-function PhotoCarousel({ photos, animalName }) {
+export function PhotoCarousel({ photos, animalName }) {
   const [current, setCurrent] = useState(0)
   const [imgErrors, setImgErrors] = useState({})
 
@@ -96,6 +97,8 @@ function PhotoCarousel({ photos, animalName }) {
 function PostCard({ post, currentUserId, onRefresh }) {
   const [expanded, setExpanded] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
+export function PostCard({ post }) {
+  const navigate = useNavigate();
 
   const isOwner = String(post.publisherId) === String(currentUserId)
   console.log('publisherId:', post.publisherId, 'currentUserId:', currentUserId, 'isOwner:', isOwner)
@@ -133,46 +136,39 @@ function PostCard({ post, currentUserId, onRefresh }) {
           <p className="pf-description">{post.description}</p>
         )}
 
-        <div className={`pf-extra-info ${expanded ? 'pf-extra-info-open' : ''}`}>
-          <div className="pf-extra-info-inner">
-
-            {/*Size*/}
-            {post.size && (
+        <div className="pf-quick-info">
+          {age && (
               <div className="pf-info-row">
-                <span className="pf-info-label">Size</span>
-                <span className="pf-info-value">{SIZE_LABELS[post.size] ?? post.size}</span>
-              </div>
-            )}
-
-            {/*Age*/}
-            {age && (
-              <div className="pf-info-row">
-                <span className="pf-info-label">Age</span>
+                <span className="pf-info-label">Age:</span>
                 <span className="pf-info-value">{age}</span>
               </div>
-            )}
-
-            {/*Animal description (distinct from post description)*/}
-            {post.animalDescription && (
-              <div className="pf-info-row pf-info-row-column">
-                <span className="pf-info-label">About</span>
-                <span className="pf-info-value">{post.animalDescription}</span>
+          )}
+          {post.size && (
+              <div className="pf-info-row">
+                <span className="pf-info-label">Size:</span>
+                <span className="pf-info-value">{SIZE_LABELS[post.size] ?? post.size}</span>
               </div>
-            )}
-
-          </div>
+          )}
         </div>
 
-        {/*Footer*/}
         <div className="pf-card-footer">
           <span className="pf-species-tag">
             {SPECIES_EMOJI[post.species] ?? '🐾'} {post.species}
           </span>
+
           <button
-            className="pf-more-btn"
-            onClick={() => setExpanded(prev => !prev)}
+              className="pf-more-btn"
+              onClick={() => {
+                const animalId = post.idAnimal || post.idPost;
+
+                if (animalId) {
+                  navigate(`/animal/${animalId}`);
+                } else {
+                  console.error("No se encontró el ID del animal en este post:", post);
+                }
+              }}
           >
-            {expanded ? 'Less info' : 'More info'}
+            More info
           </button>
         </div>
       </div>
@@ -205,7 +201,7 @@ function PostCard({ post, currentUserId, onRefresh }) {
       )}
 
     </article>
-  )
+  );
 }
 
 // Feed
