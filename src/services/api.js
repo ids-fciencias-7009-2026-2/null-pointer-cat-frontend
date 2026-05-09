@@ -83,3 +83,20 @@ export const updateProfile = (data) =>
     body: JSON.stringify(data),
   });
   
+
+
+const ANIMALS_URL = "http://localhost:8080/animals";
+
+export const searchAnimals = ({ species, size, zipcode, breedName } = {}) => {
+  const params = new URLSearchParams();
+  if (species)   params.append("species",   species);
+  if (size)      params.append("size",      size);
+  if (zipcode)   params.append("zipcode",   zipcode);
+  if (breedName) params.append("breedName", breedName);
+
+  const query = params.toString();
+  return fetch(`${ANIMALS_URL}${query ? `?${query}` : ""}`, {
+    method: "GET",
+    headers: authHeaders(),
+  });
+};
