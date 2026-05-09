@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import '../styles/Sidebar.css'
 import { BiUser, BiLogOut, BiNews } from 'react-icons/bi'
 
+import { BiUser, BiLogOut, BiBone } from 'react-icons/bi'
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -10,16 +11,12 @@ export default function Sidebar() {
 
   useEffect(() => {
     const handleEscape = (e) => {
-      if (e.key === 'Escape') {
-        setIsOpen(false)
-      }
+      if (e.key === 'Escape') setIsOpen(false)
     }
-
     if (isOpen) {
       document.addEventListener('keydown', handleEscape)
       document.body.style.overflow = 'hidden'
     }
-
     return () => {
       document.removeEventListener('keydown', handleEscape)
       document.body.style.overflow = 'unset'
@@ -38,7 +35,6 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Hamburger Button */}
       <button
         className={`hamburger-button ${isOpen ? 'active' : ''}`}
         onClick={() => setIsOpen(!isOpen)}
@@ -49,13 +45,11 @@ export default function Sidebar() {
         <span></span>
       </button>
 
-      {/* Overlay */}
       <div
         className={`sidebar-overlay ${isOpen ? 'active' : ''}`}
         onClick={() => setIsOpen(false)}
       />
 
-      {/* Sidebar */}
       <aside className={`sidebar ${isOpen ? 'active' : ''}`}>
         <div className="sidebar-header">
           <h1>AdoptaPet</h1>
@@ -64,10 +58,7 @@ export default function Sidebar() {
         <div className="sidebar-content">
           <ul className="sidebar-menu">
             <li>
-              <button
-                className="sidebar-menu-item"
-                onClick={() => handleNavigate('/profile')}
-              >
+              <button className="sidebar-menu-item" onClick={() => handleNavigate('/profile')}>
                 <BiUser />
                 Profile
               </button>
@@ -79,16 +70,16 @@ export default function Sidebar() {
               >
                 <BiNews />
                 My posts
+              <button className="sidebar-menu-item" onClick={() => handleNavigate('/my-animals')}>
+                <BiBone />
+                My Animals
               </button>
             </li>
           </ul>
         </div>
 
         <div className="sidebar-footer">
-          <button
-            className="sidebar-footer-button logout"
-            onClick={handleLogout}
-          >
+          <button className="sidebar-footer-button logout" onClick={handleLogout}>
             <BiLogOut />
             Logout
           </button>

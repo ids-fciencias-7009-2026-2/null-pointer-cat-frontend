@@ -100,3 +100,11 @@ export const searchAnimals = ({ species, size, zipcode, breedName } = {}) => {
     headers: authHeaders(),
   });
 };
+
+
+export const registerAnimal = (data) =>
+  fetch(`${ANIMALS_URL}/register`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });

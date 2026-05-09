@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { getToken } from '../utils/auth'
+import "../styles/Post.css";
 
 export default function Post({ onSuccess, onClose }) {
   const [formData, setFormData] = useState({
@@ -55,54 +56,65 @@ export default function Post({ onSuccess, onClose }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+  <form className="post-form" onSubmit={handleSubmit}>
 
-      <div>
-        <label>Animal's ID *</label>
-        <input
-          type="number"
-          name="idAnimal"
-          placeholder="Ej. 3"
-          value={formData.idAnimal}
-          onChange={handleChange}
-          min={1}
-        />
-      </div>
+    <div className="post-form-group">
+      <label className="post-form-label">Animal ID *</label>
+      <input
+        className="post-form-input"
+        type="number"
+        name="idAnimal"
+        placeholder="e.g. 3"
+        value={formData.idAnimal}
+        onChange={handleChange}
+        min={1}
+      />
+    </div>
 
-      <div>
-        <label>Description</label>
-        <textarea
-          name="description"
-          placeholder="Cuéntanos sobre este animal..."
-          value={formData.description}
-          onChange={handleChange}
-          rows={4}
-        />
-      </div>
+    <div className="post-form-group">
+      <label className="post-form-label">Description</label>
+      <textarea
+        className="post-form-textarea"
+        name="description"
+        placeholder="Tell us about this animal..."
+        value={formData.description}
+        onChange={handleChange}
+      />
+    </div>
 
-      <div>
-        <label>STATUS</label>
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-        >
-          <option value="ACTIVE">Active</option>
-          <option value="INACTIVE">Inactive</option>
-        </select>
-      </div>
+    <div className="post-form-group">
+      <label className="post-form-label">Status</label>
+      <select
+        className="post-form-select"
+        name="status"
+        value={formData.status}
+        onChange={handleChange}
+      >
+        <option value="ACTIVE">Active</option>
+        <option value="INACTIVE">Inactive</option>
+      </select>
+    </div>
 
-      {error && <p>{error}</p>}
+    {error && <p className="post-form-error">{error}</p>}
 
-      <div>
-        <button type="button" onClick={onClose} disabled={loading}>
-          Cancelar
-        </button>
-        <button type="submit" disabled={loading}>
-          {loading ? 'Publicando...' : 'Publicar'}
-        </button>
-      </div>
+    <div className="post-form-actions">
+      <button
+        className="post-btn-cancel"
+        type="button"
+        onClick={onClose}
+        disabled={loading}
+      >
+        Cancel
+      </button>
+      <button
+        className="post-btn-submit"
+        type="submit"
+        disabled={loading}
+      >
+        {loading ? 'Publishing...' : 'Publish'}
+      </button>
+    </div>
 
-    </form>
-  )
+  </form>
+)
 }
