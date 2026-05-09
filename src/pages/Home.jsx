@@ -11,6 +11,8 @@ import AnimalSearch from './AnimalSearch'
 export default function Home() {
   const [userInitials, setUserInitials]   = useState('?')
   const [showPostModal, setShowPostModal] = useState(false)
+  const [feedRefresh, setFeedRefresh] = useState(0)
+  const [currentUserId, setCurrentUserId] = useState(null) 
   const [feedRefresh, setFeedRefresh]     = useState(0)
   const [searchActive, setSearchActive]   = useState(false)
   const navigate = useNavigate()
@@ -23,10 +25,13 @@ export default function Home() {
     }
 
     const userData = JSON.parse(sessionStorage.getItem('userData') || '{}')
+    console.log(userData)
+
     if (userData.firstname && userData.lastname) {
       const initials = `${userData.firstname[0]}${userData.lastname[0]}`.toUpperCase()
       setUserInitials(initials)
     }
+    setCurrentUserId(userData.id)
   }, [navigate])
 
   const handleProfileClick = () => {
@@ -77,6 +82,12 @@ export default function Home() {
           {/* Search — notifies Home when a filter search is active */}
           <AnimalSearch onSearchActive={setSearchActive} />
 
+      {/* Feed */}
+      <PostFeed
+        refresh={feedRefresh}
+        currentUserId={currentUserId}
+        onRefresh={() => setFeedRefresh(prev => prev + 1)}
+      />
           {/* Feed — hidden while the user has an active search */}
           {!searchActive && <PostFeed refresh={feedRefresh} />}
 

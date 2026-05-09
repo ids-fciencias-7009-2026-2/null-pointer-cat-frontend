@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { getToken } from '../utils/auth'
 import { useNavigate } from 'react-router-dom';
 import '../styles/PostFeed.css'
+import EditPost from './EditPost'
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -93,10 +94,20 @@ export function PhotoCarousel({ photos, animalName }) {
 
 // ─── Single post card ────────────────────────────────────────────────────────
 
+function PostCard({ post, currentUserId, onRefresh }) {
+  const [expanded, setExpanded] = useState(false)
+  const [showEditModal, setShowEditModal] = useState(false)
 export function PostCard({ post }) {
   const navigate = useNavigate();
 
+  const isOwner = String(post.publisherId) === String(currentUserId)
+  console.log('publisherId:', post.publisherId, 'currentUserId:', currentUserId, 'isOwner:', isOwner)
   const age = calcAge(post.dateOfBirth)
+
+  const handleEditSuccess = () => {
+    setShowEditModal(false)
+    onRefresh?.()
+  }
 
   return (
     <article className="pf-card">
@@ -161,13 +172,41 @@ export function PostCard({ post }) {
           </button>
         </div>
       </div>
+
+      {/* Edit Button */}
+      {isOwner && (
+        <button
+          className="pf-edit-btn"
+          onClick={() => setShowEditModal(true)}
+        >
+          Edit
+        </button>
+      )}
+
+      {/* Edition Modal  */}
+      {showEditModal && (
+        <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
+          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2 className="modal-title">Edit post</h2>
+              <button className="modal-close" onClick={() => setShowEditModal(false)}>✕</button>
+            </div>
+            <EditPost
+              post={post}
+              onSuccess={handleEditSuccess}
+              onClose={() => setShowEditModal(false)}
+            />
+          </div>
+        </div>
+      )}
+
     </article>
   );
 }
 
 // Feed
 
-export default function PostFeed({ refresh }) {
+export default function PostFeed({ refresh, currentUserId, onRefresh }) {
   const [posts, setPosts]     = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError]     = useState(null)
@@ -211,7 +250,8 @@ export default function PostFeed({ refresh }) {
   return (
     <div className="pf-grid">
       {posts.map(post => (
-        <PostCard key={post.idPost} post={post} />
+        
+      <PostCard key={post.idPost} post={post} currentUserId={currentUserId} onRefresh={onRefresh} />
       ))}
     </div>
   )
