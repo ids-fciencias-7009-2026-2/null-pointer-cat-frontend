@@ -92,7 +92,7 @@ function PhotoCarousel({ photos, animalName }) {
 
 // ─── Single post card ────────────────────────────────────────────────────────
 
-function PostCard({ post }) {
+export function PostCard({ post }) {
   const [expanded, setExpanded] = useState(false)
 
   const age = calcAge(post.dateOfBirth)

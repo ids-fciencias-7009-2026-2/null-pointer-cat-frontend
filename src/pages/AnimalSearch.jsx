@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { BiSearch, BiX } from 'react-icons/bi'
 import { searchAnimals } from '../services/api'
+import { PostCard } from './PostFeed'
 import '../styles/AnimalSearch.css'
 
 const FILTER_KEYS = ['species', 'size', 'zipcode', 'breedName']
@@ -28,29 +29,6 @@ function parseInput(raw) {
   const normalized = keyMap[key] ?? key
   if (!FILTER_KEYS.includes(normalized)) return null
   return { key: normalized, value: val }
-}
-
-function AnimalCard({ animal }) {
-  const photo = animal.photos?.[0]
-  return (
-    <div className="animal-card">
-      <div className="animal-card__img">
-        {photo
-          ? <img src={photo} alt={animal.animalName} />
-          : <span className="animal-card__emoji">{emoji}</span>}
-      </div>
-      <div className="animal-card__body">
-        <p className="animal-card__name">{animal.animalName}</p>
-        <p className="animal-card__meta">
-          {[animal.breedName, animal.size, animal.animalZipcode].filter(Boolean).join(' · ')}
-        </p>
-        {animal.description && <p className="animal-card__desc">{animal.description}</p>}
-        <span className={`animal-card__badge animal-card__badge--${animal.species?.toLowerCase()}`}>
-          {animal.species}
-        </span>
-      </div>
-    </div>
-  )
 }
 
 export default function AnimalSearch() {
@@ -110,8 +88,8 @@ export default function AnimalSearch() {
       if (!res.ok) throw new Error()
       setAnimals(await res.json())
     } catch {
-        setError('Could not connect to the server.')
-        setAnimals([])
+      setError('Could not connect to the server.')
+      setAnimals([])
     } finally {
       setLoading(false)
     }
@@ -136,23 +114,14 @@ export default function AnimalSearch() {
         onClick={() => inputRef.current?.focus()}
       >
         {tags.map(({ key, value }) => (
-          <span
-            key={key}
-            className="search-tag"
-            style={{
-              background: TAG_COLORS[key].bg,
-              border: `1.5px solid ${TAG_COLORS[key].border}`,
-              color: TAG_COLORS[key].text,
-            }}
+          <span key={key} className="search-tag"
+            style={{ background: TAG_COLORS[key].bg, border: `1.5px solid ${TAG_COLORS[key].border}`, color: TAG_COLORS[key].text }}
           >
             <span className="search-tag__key">{key}</span>
             <span className="search-tag__sep">:</span>
             <span className="search-tag__val">{value}</span>
-            <button
-              className="search-tag__remove"
-              style={{ color: TAG_COLORS[key].text }}
-              onClick={(e) => { e.stopPropagation(); removeTag(key) }}
-            >
+            <button className="search-tag__remove" style={{ color: TAG_COLORS[key].text }}
+              onClick={(e) => { e.stopPropagation(); removeTag(key) }}>
               <BiX size={14} />
             </button>
           </span>
@@ -178,13 +147,9 @@ export default function AnimalSearch() {
               <>
                 <div className="search-dropdown__label">Available filters</div>
                 {keywordHints.map((k) => (
-                  <div
-                    key={k}
-                    className="search-dropdown__item"
-                    onMouseDown={(e) => { e.preventDefault(); setInputValue(`${k}: `); inputRef.current?.focus() }}
-                  >
-                    <span className="search-dropdown__dot" style={{ background: TAG_COLORS[k]?.dot }} />
-                    {k}:
+                  <div key={k} className="search-dropdown__item"
+                    onMouseDown={(e) => { e.preventDefault(); setInputValue(`${k}: `); inputRef.current?.focus() }}>
+                    <span className="search-dropdown__dot" style={{ background: TAG_COLORS[k]?.dot }} />{k}:
                   </div>
                 ))}
               </>
@@ -193,11 +158,8 @@ export default function AnimalSearch() {
               <>
                 <div className="search-dropdown__label">Suggested values</div>
                 {suggestionOptions.map((opt) => (
-                  <div
-                    key={opt}
-                    className="search-dropdown__item"
-                    onMouseDown={(e) => { e.preventDefault(); addTag(suggestionKey, opt) }}
-                  >
+                  <div key={opt} className="search-dropdown__item"
+                    onMouseDown={(e) => { e.preventDefault(); addTag(suggestionKey, opt) }}>
                     {opt}
                   </div>
                 ))}
@@ -213,30 +175,44 @@ export default function AnimalSearch() {
           const p = parseInput(hint)
           if (!p || tags.find((t) => t.key === p.key)) return null
           return (
-            <button
-              key={hint}
-              className="search-hint-chip"
-              onClick={() => { setInputValue(`${p.key}: `); inputRef.current?.focus() }}
-            >
+            <button key={hint} className="search-hint-chip"
+              onClick={() => { setInputValue(`${p.key}: `); inputRef.current?.focus() }}>
               {hint}
             </button>
           )
         })}
       </div>
 
-      {error && <p className="search-error">{error}</p>}
+      {error && <p className="pf-message pf-message-error">{error}</p>}
       {!loading && searched && !error && (
         <p className="search-results-count">
           {animals.length === 0
-          ? 'No results found.'
-          : `${animals.length} ${animals.length === 1 ? 'animal found' : 'animals found'}`}
+            ? 'No results found.'
+            : `${animals.length} ${animals.length === 1 ? 'animal found' : 'animals found'}`}
         </p>
       )}
 
-      <div className="animal-grid">
+      <div className="pf-grid">
         {loading
-          ? Array.from({ length: 6 }).map((_, i) => <div key={i} className="animal-card animal-card--skeleton" />)
-          : animals.map((animal) => <AnimalCard key={animal.idAnimal} animal={animal} />)}
+          ? <p className="pf-message">Loading...</p>
+          : animals.map((animal) => (
+              <PostCard
+                key={animal.idAnimal}
+                post={{
+                  idPost:             animal.idAnimal,
+                  animalName:         animal.animalName,
+                  species:            animal.species,
+                  size:               animal.size,
+                  description:        animal.description,
+                  dateOfBirth:        animal.dateOfBirth,
+                  animalZipcode:      animal.animalZipcode,
+                  createdAt:          animal.publishedAt,
+                  photos:             animal.photos,
+                  publisherFirstname: '',
+                  publisherLastname:  '',
+                }}
+              />
+            ))}
       </div>
 
     </div>
