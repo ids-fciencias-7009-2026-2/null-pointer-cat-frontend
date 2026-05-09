@@ -57,11 +57,21 @@ export default function Login() {
 
       const data = await res.json();
       saveToken(data.token);
+
+      // Fetch user data and save to sessionStorage
+      const meRes = await fetch('http://localhost:8080/users/me', {
+        headers: { Authorization: `Bearer ${data.token}` },
+      })
+      if (meRes.ok) {
+        const userData = await meRes.json()
+        sessionStorage.setItem('userData', JSON.stringify(userData))
+      } 
+
       setError("");
       window.location.href = "/home";
-    } catch {
-      setError("Connection error. Please try again.");
-    }
+      } catch {
+        setError("Connection error. Please try again.");
+      }
   };
 
 
