@@ -166,32 +166,9 @@ export function PostCard({ post, currentUserId, onRefresh }) {
           </span>
           <button className="pf-more-btn" onClick={handleMoreInfo}>
             More info
-                      </button>
-                      {!isOwner && (
-                        <button
-                          className="pf-interest-btn"
-                          onClick={async (e) => {
-                            e.stopPropagation()
-                            if (interestDone || interestLoading) return
-                            setInterestLoading(true)
-                            try {
-                              const token = getToken()
-                              const animalId = post.idAnimal ?? post.idPost
-                              const res = await fetch(`http://localhost:8080/favorites/${animalId}`, {
-                                method: 'POST',
-                                headers: { Authorization: `Bearer ${token}` },
-                              })
-                              if (res.ok) setInterestDone(true)
-                            } catch (err) { console.error(err) }
-                            finally { setInterestLoading(false) }
-                          }}
-                          disabled={interestDone || interestLoading}
-                        >
-                          {interestDone ? '❤️ ¡Enviado!' : interestLoading ? '...' : '🐾 Me interesa'}
-                        </button>
-                      )}
-                    </div>
-                  </div>
+          </button>
+        </div>
+      </div>
 
       {/* ── Edit modal ── */}
       {showEditModal && (
