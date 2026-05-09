@@ -325,3 +325,16 @@
   line-height: 1.5;
   color: var(--text-secondary);
 }
+.pf-interest-btn {
+  padding: 7px 18px;
+  background: var(--accent-complement);
+  color: white;
+  border: none;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.pf-interest-btn:hover:not(:disabled) { opacity: 0.85; }
+.pf-interest-btn:disabled { background: #33a366; cursor: default; }

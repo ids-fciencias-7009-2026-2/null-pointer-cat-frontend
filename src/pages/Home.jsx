@@ -12,9 +12,8 @@ export default function Home() {
   const [userInitials, setUserInitials]   = useState('?')
   const [showPostModal, setShowPostModal] = useState(false)
   const [feedRefresh, setFeedRefresh] = useState(0)
-  const [currentUserId, setCurrentUserId] = useState(null) 
-  const [feedRefresh, setFeedRefresh]     = useState(0)
   const [searchActive, setSearchActive]   = useState(false)
+  const [currentUserId, setCurrentUserId] = useState(null) 
   const navigate = useNavigate()
 
   useEffect(() => {

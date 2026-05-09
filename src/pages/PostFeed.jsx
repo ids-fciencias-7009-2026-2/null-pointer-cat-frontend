@@ -94,9 +94,6 @@ export function PhotoCarousel({ photos, animalName }) {
 
 // ─── Single post card ────────────────────────────────────────────────────────
 
-function PostCard({ post, currentUserId, onRefresh }) {
-  const [expanded, setExpanded] = useState(false)
-  const [showEditModal, setShowEditModal] = useState(false)
 export function PostCard({ post }) {
   const navigate = useNavigate();
 
@@ -169,9 +166,32 @@ export function PostCard({ post }) {
               }}
           >
             More info
-          </button>
-        </div>
-      </div>
+                      </button>
+                      {!isOwner && (
+                        <button
+                          className="pf-interest-btn"
+                          onClick={async (e) => {
+                            e.stopPropagation()
+                            if (interestDone || interestLoading) return
+                            setInterestLoading(true)
+                            try {
+                              const token = getToken()
+                              const animalId = post.idAnimal ?? post.idPost
+                              const res = await fetch(`http://localhost:8080/favorites/${animalId}`, {
+                                method: 'POST',
+                                headers: { Authorization: `Bearer ${token}` },
+                              })
+                              if (res.ok) setInterestDone(true)
+                            } catch (err) { console.error(err) }
+                            finally { setInterestLoading(false) }
+                          }}
+                          disabled={interestDone || interestLoading}
+                        >
+                          {interestDone ? '❤️ ¡Enviado!' : interestLoading ? '...' : '🐾 Me interesa'}
+                        </button>
+                      )}
+                    </div>
+                  </div>
 
       {/* Edit Button */}
       {isOwner && (
