@@ -108,3 +108,18 @@ export const registerAnimal = (data) =>
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
+
+export const getMyAnimals = () =>
+  fetch(`${ANIMALS_URL}/my_animals`, {
+    method: "GET",
+    headers: authHeaders(),
+  });
+
+const POSTS_URL = "http://localhost:8080/post";
+
+export const registerPost = (data) =>
+  fetch(`${POSTS_URL}/register`, {
+    method: "POST",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });

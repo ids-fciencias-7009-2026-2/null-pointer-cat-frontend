@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { getToken } from '../utils/auth'
 import "../styles/Post.css";
+import { getMyAnimals, registerPost } from '../services/api'
 
 export default function Post({ onSuccess, onClose }) {
   const [formData, setFormData] = useState({
@@ -8,8 +9,32 @@ export default function Post({ onSuccess, onClose }) {
     description: '',
     status: 'ACTIVE',
   })
+  const [animals, setAnimals] = useState([])
+  const [loadingAnimals, setLoadingAnimals] = useState(true)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+
+  useEffect(() => {
+    fetchAnimals()
+  }, [])
+
+  const fetchAnimals = async () => {
+    try {
+
+      const response = await getMyAnimals()
+      if (!response.ok) {
+        setError('Could not load animals.')
+        return
+      }
+
+      const data = await response.json()
+      setAnimals(data)
+    } catch (err) {
+      setError('Connection error while loading animals.')
+    } finally {
+      setLoadingAnimals(false)
+    }
+  }
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -19,37 +44,27 @@ export default function Post({ onSuccess, onClose }) {
     e.preventDefault()
     setError(null)
 
-    if (!formData.idAnimal) {
-      setError('El ID del animal es obligatorio.')
+    if (!formData.idAnimal || isNaN(parseInt(formData.idAnimal, 10))) {
+      setError('You must select an animal.')
       return
     }
 
     setLoading(true)
     try {
-      const token = getToken()
-      const response = await fetch('http://localhost:8080/post/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          idAnimal: parseInt(formData.idAnimal),
-          description: formData.description || null,
-          status: formData.status,
-        }),
+      const response = await registerPost({
+        idAnimal: parseInt(formData.idAnimal, 10),
+        description: formData.description || null,
+        status: formData.status,
       })
-
       if (!response.ok) {
-        setError('No se pudo crear la publicación. Verifica el ID del animal.')
+        setError('Error with publication')
         return
       }
-
       const data = await response.json()
       onSuccess?.(data)
       onClose?.()
     } catch (err) {
-      setError('Error de conexión. Intenta de nuevo.')
+      setError('Connection error...')
     } finally {
       setLoading(false)
     }
@@ -58,18 +73,26 @@ export default function Post({ onSuccess, onClose }) {
   return (
   <form className="post-form" onSubmit={handleSubmit}>
 
-    <div className="post-form-group">
-      <label className="post-form-label">Animal ID *</label>
-      <input
-        className="post-form-input"
-        type="number"
-        name="idAnimal"
-        placeholder="e.g. 3"
-        value={formData.idAnimal}
-        onChange={handleChange}
-        min={1}
-      />
-    </div>
+      <div className="post-form-group">
+        <label className="post-form-label">Animal ID *</label>
+        {loadingAnimals ? (
+          <p className="post-form-loading">Loading animals...</p>
+        ) : (
+          <select
+            className="post-form-select"
+            name="idAnimal"
+            value={formData.idAnimal}
+            onChange={handleChange}
+          >
+            <option value="">Select an animal</option>
+            {animals.map((animal) => (
+              <option key={animal.idAnimal} value={animal.idAnimal}>
+                {animal.animalName}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
 
     <div className="post-form-group">
       <label className="post-form-label">Description</label>
@@ -80,19 +103,6 @@ export default function Post({ onSuccess, onClose }) {
         value={formData.description}
         onChange={handleChange}
       />
-    </div>
-
-    <div className="post-form-group">
-      <label className="post-form-label">Status</label>
-      <select
-        className="post-form-select"
-        name="status"
-        value={formData.status}
-        onChange={handleChange}
-      >
-        <option value="ACTIVE">Active</option>
-        <option value="INACTIVE">Inactive</option>
-      </select>
     </div>
 
     {error && <p className="post-form-error">{error}</p>}
