@@ -105,3 +105,133 @@
   color: white;
   font-weight: 600;
 }
+
+.detail-card-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.detail-card-content {
+  background: var(--bg-primary);
+  border-radius: 24px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.detail-card-close {
+  position: absolute;
+  top: 15px; right: 20px;
+  background: white; border-radius: 50%; width: 35px; height: 35px;
+  border: none; font-size: 1.5rem; cursor: pointer; z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.detail-card-image-container {
+  width: 100%;
+  height: 350px;
+  position: relative;
+  background: #000;
+}
+
+.detail-card-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.detail-card-info {
+  padding: 24px;
+}
+
+.detail-card-header-detail {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.detail-card-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; margin-bottom: 20px;
+  font-size: 0.95rem; color: var(--text-primary);
+}
+
+.detail-card-divider {
+  border: 0; border-top: 1px solid var(--border-color);
+  margin: 20px 0;
+}
+
+.detail-card-description {
+  line-height: 1.6; color: var(--text-primary); opacity: 0.8;
+  margin-bottom: 24px;
+}
+
+.gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  border: none;
+  padding: 15px 10px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: background 0.3s;
+  border-radius: 4px;
+}
+
+.gallery-nav:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.gallery-nav.prev { left: 10px; }
+.gallery-nav.next { right: 10px; }
+
+.gallery-indicator {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  z-index: 3000; /* Por encima de todo */
+}
+
+.spinner {
+  width: 40px; height: 40px;
+  border: 4px solid var(--border-color);
+  border-top: 4px solid var(--accent-light);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
