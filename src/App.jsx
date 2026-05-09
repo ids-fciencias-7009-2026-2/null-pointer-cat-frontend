@@ -5,7 +5,8 @@ import Home from "./pages/Home";
 import Logout from "./pages/Logout";
 import Profile from "./pages/Profile";
 import ProfileEdit from "./pages/ProfileEdit.jsx";
-import AnimalDetail from "./pages/AnimalDetail";
+import MyPosts from "./pages/MyPosts.jsx";
+import AnimalDetail from "./pages/AnimalDetail.jsx";
 import { getToken } from "./utils/auth";
 
 export default function App() {
@@ -26,10 +27,6 @@ export default function App() {
             />
           }
         />
-        <Route
-          path="/animal/:id"
-          element={isAuthenticated ? <AnimalDetail /> : <Navigate to="/login" />}
-        />
         <Route path="/logout" element={<Logout />} />
         <Route 
           path="/profile" 
@@ -42,6 +39,18 @@ export default function App() {
           element={
             isAuthenticated ? <ProfileEdit /> : <Navigate to="/login" />
           } 
+        />
+        <Route
+          path="/my-posts"
+          element={
+            isAuthenticated ? <MyPosts /> : <Navigate to="/login" />
+          }
+        />
+        <Route
+          path="/animal/:id"
+          element={
+            isAuthenticated ? <AnimalDetail /> : <Navigate to="/login" />
+          }
         />
       </Routes>
     </BrowserRouter>

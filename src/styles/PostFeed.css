@@ -251,6 +251,25 @@
   background: var(--accent-strong);
   box-shadow: var(--shadow-sm);
 }
+
+.pf-edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  margin-left: 6px;
+}
+ 
+.pf-edit-btn:hover {
+  background: var(--bg-primary);
+  color: var(--accent-strong);
+}
  
 /*Responsive*/
  
@@ -324,4 +343,23 @@
   text-align: left;
   line-height: 1.5;
   color: var(--text-secondary);
+}
+
+.pf-edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  margin-left: 6px;
+}
+ 
+.pf-edit-btn:hover {
+  background: var(--bg-primary);
+  color: var(--accent-strong);
 }
