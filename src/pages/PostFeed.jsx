@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { BiPencil } from 'react-icons/bi'
 import { getToken } from '../utils/auth'
-import { useNavigate } from 'react-router-dom';
-import '../styles/PostFeed.css'
 import EditPost from './EditPost'
+import '../styles/PostFeed.css'
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -28,17 +29,14 @@ function getInitials(firstname, lastname) {
   return `${firstname?.[0] ?? ''}${lastname?.[0] ?? ''}`.toUpperCase()
 }
 
-/**
- * Calculates age as "X years, Y months" from a date of birth ISO string.
- */
 function calcAge(dateOfBirth) {
   if (!dateOfBirth) return null
-  const birth = new Date(dateOfBirth)
-  const now   = new Date()
+  const birth  = new Date(dateOfBirth)
+  const now    = new Date()
   let years  = now.getFullYear() - birth.getFullYear()
-  let months = now.getMonth() - birth.getMonth()
+  let months = now.getMonth()    - birth.getMonth()
   if (months < 0) { years--; months += 12 }
-  if (years === 0) return `${months} month${months !== 1 ? 's' : ''}`
+  if (years  === 0) return `${months} month${months !== 1 ? 's' : ''}`
   if (months === 0) return `${years} year${years !== 1 ? 's' : ''}`
   return `${years} year${years !== 1 ? 's' : ''}, ${months} month${months !== 1 ? 's' : ''}`
 }
@@ -46,7 +44,7 @@ function calcAge(dateOfBirth) {
 // ─── Carousel ───────────────────────────────────────────────────────────────
 
 export function PhotoCarousel({ photos, animalName }) {
-  const [current, setCurrent] = useState(0)
+  const [current, setCurrent]     = useState(0)
   const [imgErrors, setImgErrors] = useState({})
 
   if (!photos || photos.length === 0) {
@@ -63,7 +61,9 @@ export function PhotoCarousel({ photos, animalName }) {
   return (
     <div className="pf-carousel">
       {imgErrors[current] ? (
-        <div className="pf-carousel-placeholder"><span>Oops... Photos aren't loading</span></div>
+        <div className="pf-carousel-placeholder">
+          <span>Oops... Photos are not loading</span>
+        </div>
       ) : (
         <img
           className="pf-carousel-img"
@@ -92,14 +92,17 @@ export function PhotoCarousel({ photos, animalName }) {
   )
 }
 
-// ─── Single post card ────────────────────────────────────────────────────────
+export function PostCard({ post, currentUserId, onRefresh }) {
+  const navigate                          = useNavigate()
+  const [showEditModal, setShowEditModal] = useState(false)
 
-export function PostCard({ post }) {
-  const navigate = useNavigate();
+  const age     = calcAge(post.dateOfBirth)
+  const isOwner = currentUserId && String(post.publisherId) === String(currentUserId)
 
-  const isOwner = String(post.publisherId) === String(currentUserId)
-  console.log('publisherId:', post.publisherId, 'currentUserId:', currentUserId, 'isOwner:', isOwner)
-  const age = calcAge(post.dateOfBirth)
+  const handleMoreInfo = () => {
+    const animalId = post.idAnimal ?? post.idPost
+    if (animalId) navigate(`/animal/${animalId}`)
+  }
 
   const handleEditSuccess = () => {
     setShowEditModal(false)
@@ -109,6 +112,7 @@ export function PostCard({ post }) {
   return (
     <article className="pf-card">
 
+      {/* ── Header ── */}
       <div className="pf-card-header">
         <div className="pf-avatar">
           {getInitials(post.publisherFirstname, post.publisherLastname)}
@@ -121,11 +125,18 @@ export function PostCard({ post }) {
         </div>
         <div className="pf-header-right">
           <span className="pf-zipcode">📍 {post.animalZipcode}</span>
+          {isOwner && (
+            <button className="pf-edit-btn" onClick={() => setShowEditModal(true)} title="Edit post">
+              <BiPencil size={16} />
+            </button>
+          )}
         </div>
       </div>
 
+      {/* ── Carousel ── */}
       <PhotoCarousel photos={post.photos} animalName={post.animalName} />
 
+      {/* ── Body ── */}
       <div className="pf-card-body">
         <h3 className="pf-animal-name">{post.animalName}</h3>
 
@@ -135,36 +146,25 @@ export function PostCard({ post }) {
 
         <div className="pf-quick-info">
           {age && (
-              <div className="pf-info-row">
-                <span className="pf-info-label">Age:</span>
-                <span className="pf-info-value">{age}</span>
-              </div>
+            <div className="pf-info-row">
+              <span className="pf-info-label">Age:</span>
+              <span className="pf-info-value">{age}</span>
+            </div>
           )}
           {post.size && (
-              <div className="pf-info-row">
-                <span className="pf-info-label">Size:</span>
-                <span className="pf-info-value">{SIZE_LABELS[post.size] ?? post.size}</span>
-              </div>
+            <div className="pf-info-row">
+              <span className="pf-info-label">Size:</span>
+              <span className="pf-info-value">{SIZE_LABELS[post.size] ?? post.size}</span>
+            </div>
           )}
         </div>
 
+        {/* ── Footer ── */}
         <div className="pf-card-footer">
           <span className="pf-species-tag">
             {SPECIES_EMOJI[post.species] ?? '🐾'} {post.species}
           </span>
-
-          <button
-              className="pf-more-btn"
-              onClick={() => {
-                const animalId = post.idAnimal || post.idPost;
-
-                if (animalId) {
-                  navigate(`/animal/${animalId}`);
-                } else {
-                  console.error("No se encontró el ID del animal en este post:", post);
-                }
-              }}
-          >
+          <button className="pf-more-btn" onClick={handleMoreInfo}>
             More info
                       </button>
                       {!isOwner && (
@@ -193,20 +193,10 @@ export function PostCard({ post }) {
                     </div>
                   </div>
 
-      {/* Edit Button */}
-      {isOwner && (
-        <button
-          className="pf-edit-btn"
-          onClick={() => setShowEditModal(true)}
-        >
-          Edit
-        </button>
-      )}
-
-      {/* Edition Modal  */}
+      {/* ── Edit modal ── */}
       {showEditModal && (
         <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
-          <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-container" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
               <h2 className="modal-title">Edit post</h2>
               <button className="modal-close" onClick={() => setShowEditModal(false)}>✕</button>
@@ -221,42 +211,39 @@ export function PostCard({ post }) {
       )}
 
     </article>
-  );
+  )
 }
 
-// Feed
+// ─── Feed ───────────────────────────────────────────────────────────────────
 
-export default function PostFeed({ refresh, currentUserId, onRefresh }) {
+export default function PostFeed({ refresh, endpoint = 'http://localhost:8080/post', currentUserId, onRefresh }) {
   const [posts, setPosts]     = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError]     = useState(null)
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      setLoading(true)
-      setError(null)
-      try {
-        const token = getToken()
-        const response = await fetch('http://localhost:8080/post', {
-          headers: { Authorization: `Bearer ${token}` },
-        })
+  const fetchPosts = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const token    = getToken()
+      const response = await fetch(endpoint, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
 
-        if (!response.ok) {
-          setError('Could not load posts. Please try again.')
-          return
-        }
-
-        const data = await response.json()
-        setPosts(data)
-      } catch {
-        setError('Connection error. Please try again.')
-      } finally {
-        setLoading(false)
+      if (!response.ok) {
+        setError('Could not load posts. Please try again.')
+        return
       }
-    }
 
-    fetchPosts()
-  }, [refresh])
+      setPosts(await response.json())
+    } catch {
+      setError('Connection error. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => { fetchPosts() }, [refresh, endpoint])
 
   if (loading) return <p className="pf-message">Loading posts...</p>
   if (error)   return <p className="pf-message pf-message-error">{error}</p>
@@ -270,8 +257,12 @@ export default function PostFeed({ refresh, currentUserId, onRefresh }) {
   return (
     <div className="pf-grid">
       {posts.map(post => (
-        
-      <PostCard key={post.idPost} post={post} currentUserId={currentUserId} onRefresh={onRefresh} />
+        <PostCard
+          key={post.idPost}
+          post={post}
+          currentUserId={currentUserId}
+          onRefresh={onRefresh ?? fetchPosts}
+        />
       ))}
     </div>
   )

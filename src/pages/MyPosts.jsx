@@ -15,6 +15,7 @@ export default function MyPosts() {
   const [userInitials, setUserInitials] = useState('?')
   const [showPostModal, setShowPostModal] = useState(false)
   const [feedRefresh, setFeedRefresh] = useState(0)
+  const [currentUserId, setCurrentUserId] = useState(null)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -27,6 +28,7 @@ export default function MyPosts() {
         `${userData.firstname[0]}${userData.lastname[0]}`.toUpperCase()
       )
     }
+    setCurrentUserId(userData.id)
   }, [navigate])
 
   const handlePostSuccess = () => {
@@ -69,7 +71,7 @@ export default function MyPosts() {
           </div>
 
           {/* ── Feed filtered to current user ── */}
-          <PostFeed refresh={feedRefresh} endpoint="http://localhost:8080/post/me" />
+          <PostFeed refresh={feedRefresh} endpoint="http://localhost:8080/post/me" currentUserId={currentUserId} onRefresh={() => setFeedRefresh(prev => prev + 1)} />
 
           {/* ── New post modal ── */}
           {showPostModal && (

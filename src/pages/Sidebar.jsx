@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../styles/Sidebar.css'
-import { BiUser, BiLogOut, BiBone } from 'react-icons/bi'
+import { BiUser, BiLogOut, BiNews, BiBone } from 'react-icons/bi'
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -59,6 +59,12 @@ export default function Sidebar() {
               <button className="sidebar-menu-item" onClick={() => handleNavigate('/profile')}>
                 <BiUser />
                 Profile
+              </button>
+            </li>
+            <li>
+              <button className="sidebar-menu-item" onClick={() => handleNavigate('/my-posts')}>
+                <BiNews />
+                My posts
               </button>
             </li>
             <li>
