@@ -1,107 +1,327 @@
-.feed-container {
+.pf-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
-  padding: 32px;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 28px;
+  padding: 32px 40px 60px;
+  align-items: start;
 }
-
-.feed-message {
+ 
+.pf-message {
   text-align: center;
-  padding: 48px;
-  color: var(--text-primary);
-  opacity: 0.6;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+  font-size: 15px;
 }
-
-.feed-error {
-  color: #c0392b;
+ 
+.pf-message-error {
+  color: #c33;
 }
-
-.feed-card {
-  background: var(--bg-primary);
+ 
+.pf-empty {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 80px 20px;
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+ 
+.pf-empty span { font-size: 52px; }
+ 
+.pf-card {
+  background: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
 }
-
-.feed-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+ 
+.pf-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-10px);
 }
-
-.feed-card-image {
-  width: 100%;
-  height: 200px;
+ 
+.pf-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+}
+ 
+.pf-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+ 
+.pf-publisher-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+ 
+.pf-publisher-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
   overflow: hidden;
-  background: var(--border-color);
+  text-overflow: ellipsis;
 }
-
-.feed-card-image img {
+ 
+.pf-publisher-date {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+ 
+.pf-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+ 
+.pf-zipcode {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+ 
+.pf-carousel {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+ 
+.pf-carousel-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 52px;
+  font-weight: 700;
+  padding: 40px;
+  color: var(--accent-white);
+  height: 100%;
+  background: var(--accent-complement);
+}
+ 
+.pf-carousel-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
+  transition: opacity 0.2s ease;
 }
-
-.feed-card-body {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.feed-card-header {
+ 
+.pf-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.80);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  color: var(--accent-strong);
+  transition: var(--transition);
+  backdrop-filter: blur(4px);
+  z-index: 2;
 }
-
-.feed-card-name {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text-primary);
+ 
+.pf-carousel-btn:hover {
+  background: white;
+  box-shadow: var(--shadow-sm);
+}
+ 
+.pf-carousel-btn-prev { left: 10px; }
+.pf-carousel-btn-next { right: 10px; }
+ 
+.pf-carousel-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+ 
+.pf-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: var(--transition);
+}
+ 
+.pf-dot-active {
+  background: white;
+  transform: scale(1.2);
+}
+ 
+.pf-card-body {
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+ 
+.pf-animal-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--accent-strong);
   margin: 0;
+  letter-spacing: -0.3px;
 }
-
-.feed-card-species {
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 20px;
-  background: var(--border-color);
-  color: var(--text-primary);
-}
-
-.feed-card-breed {
-  font-size: 0.85rem;
-  color: var(--text-primary);
-  opacity: 0.6;
+ 
+.pf-description {
+  font-size: 14px;
+  color: var(--text-secondary);
   margin: 0;
-}
-
-.feed-card-description {
-  font-size: 0.9rem;
-  color: var(--text-primary);
-  margin: 0;
-  line-height: 1.5;
+  line-height: 1.6;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
-.feed-card-footer {
+ 
+.pf-card-footer {
   display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 4px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
 }
-
-.feed-card-tag {
-  font-size: 0.78rem;
-  padding: 4px 10px;
-  border-radius: 20px;
-  background: var(--accent-light);
-  color: white;
+ 
+.pf-species-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 14px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 99px;
+  font-size: 12px;
   font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-primary);
+}
+ 
+.pf-more-btn {
+  padding: 7px 18px;
+  background: var(--accent-light);
+  color: var(--accent-white);
+  border: none;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 0.2px;
+}
+ 
+.pf-more-btn:hover {
+  background: var(--accent-strong);
+  box-shadow: var(--shadow-sm);
+}
+ 
+/*Responsive*/
+ 
+@media (max-width: 768px) {
+  .pf-grid {
+    grid-template-columns: 1fr;
+    padding: 20px 16px 48px;
+    gap: 20px;
+  }
+}
+ 
+@media (max-width: 480px) {
+  .pf-card-header { padding: 12px 14px; }
+  .pf-card-body   { padding: 14px 14px 16px; }
+  .pf-animal-name { font-size: 20px; }
+}
+ 
+.pf-extra-info {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+  overflow: hidden;
+}
+ 
+.pf-extra-info-open {
+  grid-template-rows: 1fr;
+}
+ 
+.pf-extra-info-inner {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-top: 1px solid var(--border-color);
+  padding-top: 4px;
+}
+ 
+.pf-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+ 
+.pf-info-row:last-child {
+  border-bottom: none;
+}
+ 
+.pf-info-row-column {
+  flex-direction: column;
+  gap: 4px;
+}
+ 
+.pf-info-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+ 
+.pf-info-value {
+  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 500;
+  text-align: right;
+}
+ 
+.pf-info-row-column .pf-info-value {
+  text-align: left;
+  line-height: 1.5;
+  color: var(--text-secondary);
 }

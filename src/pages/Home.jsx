@@ -32,8 +32,8 @@ export default function Home() {
   }
 
   const handlePostSuccess = (data) => {
-    console.log('Post creado:', data)
-    setFeedRefresh(prev => prev + 1) // useEffect for the feed
+    console.log('Post created:', data)
+    setFeedRefresh(prev => prev + 1)
   }
 
   
@@ -46,9 +46,9 @@ export default function Home() {
 
       <div className="home-page">
         
-        {/* Fixed Navigation Bar */}
+        {/*Fixed Navigation Bar*/}
         <nav className="home-navbar">
-          <div className="home-navbar-logo">AdoptaPet</div>
+          <div className="home-navbar-logo">Paws!</div>
           
           <div className="home-navbar-right">
             <button 
@@ -68,7 +68,7 @@ export default function Home() {
           </div>
         </nav>
 
-        {/* Banner Section */}
+        {/*Banner Section*/}
       <div className="home-banner">
         <div className="home-banner-content">
           <div className="home-banner-logo"></div>
@@ -77,20 +77,20 @@ export default function Home() {
 
       <PostFeed refresh={feedRefresh} />
 
-      {/* Botón publicar */}
+      {/*Publish button*/}
       <button
         className="home-publish-btn"
         onClick={() => setShowPostModal(true)}
       >
-        + Publicar animal
+        + Publish animal
       </button>
 
-      {/* Modal de publicación */}
+      {/*Post Modal*/}
           {showPostModal && (
             <div className="modal-overlay" onClick={() => setShowPostModal(false)}>
               <div className="modal-container" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header">
-                  <h2 className="modal-title">Nueva publicación</h2>
+                  <h2 className="modal-title">New post</h2>
                   <button className="modal-close" onClick={() => setShowPostModal(false)}>✕</button>
                 </div>
                 <Post

@@ -14,7 +14,7 @@
   left: 0;
   right: 0;
   height: 70px;
-  background: #d4cfc0BF;
+  background: #d4cfc0;
   border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
@@ -249,13 +249,11 @@
   font-weight: 700;
   cursor: pointer;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  transition: background 0.2s, transform 0.15s;
   z-index: 100;
 }
 
 .home-publish-btn:hover {
   background: var(--accent-strong);
-  transform: translateY(-2px);
 }
 
 /* Modal */
