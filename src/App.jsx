@@ -5,9 +5,7 @@ import Home from "./pages/Home"
 import Logout from "./pages/Logout"
 import Profile from "./pages/Profile"
 import ProfileEdit from "./pages/ProfileEdit.jsx"
-import MyAnimals from "./pages/MyAnimals"
 import MyPosts from "./pages/MyPosts.jsx"
-import RegisterAnimal from "./pages/RegisterAnimal"
 import AnimalDetail from "./pages/AnimalDetail.jsx"
 import { getToken } from "./utils/auth"
 
@@ -37,11 +35,6 @@ export default function App() {
         <Route
           path="/profile/edit"
           element={isAuthenticated ? <ProfileEdit /> : <Navigate to="/login" />}
-        />
-
-        <Route
-          path="/register-animal"
-          element={isAuthenticated ? <RegisterAnimal /> : <Navigate to="/login" />}
         />
 
         <Route
