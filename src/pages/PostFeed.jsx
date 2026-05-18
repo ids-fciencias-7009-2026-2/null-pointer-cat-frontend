@@ -193,7 +193,7 @@ export function PostCard({ post, currentUserId, onRefresh }) {
 
 // ─── Feed ───────────────────────────────────────────────────────────────────
 
-export default function PostFeed({ refresh, endpoint = 'http://localhost:8080/post', currentUserId, onRefresh }) {
+export default function PostFeed({ refresh, endpoint = 'http://localhost:8080/animals/all', currentUserId, onRefresh }) {
   const [posts, setPosts]     = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError]     = useState(null)

@@ -40,11 +40,6 @@ export default function App() {
         />
 
         <Route
-          path="/my-animals"
-          element={isAuthenticated ? <MyAnimals /> : <Navigate to="/login" />}
-        />
-
-        <Route
           path="/register-animal"
           element={isAuthenticated ? <RegisterAnimal /> : <Navigate to="/login" />}
         />
