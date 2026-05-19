@@ -60,8 +60,14 @@
 .edit-actions {
   display: flex;
   gap: 10px;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 6px;
+}
+
+.edit-actions-right {
+  display: flex;
+  gap: 10px;
 }
 
 .edit-btn-cancel {
@@ -98,7 +104,65 @@
 }
 
 .edit-btn-cancel:disabled,
-.edit-btn-submit:disabled {
+.edit-btn-submit:disabled,
+.edit-btn-delete:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.edit-btn-delete {
+  background: #c0392b;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.edit-btn-delete:hover:not(:disabled) {
+  background: #a3301f;
+  transform: translateY(-1px);
+}
+
+.edit-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+}
+
+.edit-confirm-box {
+  background: var(--bg-primary);
+  border-radius: 14px;
+  padding: 24px;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+}
+
+.edit-confirm-title {
+  margin: 0 0 10px 0;
+  font-size: 1.15rem;
+  color: var(--text-primary);
+}
+
+.edit-confirm-text {
+  margin: 0 0 20px 0;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  opacity: 0.85;
+  line-height: 1.45;
+}
+
+.edit-confirm-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
 }
