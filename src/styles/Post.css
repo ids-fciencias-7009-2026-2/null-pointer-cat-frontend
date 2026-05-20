@@ -102,3 +102,11 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.post-form-success {
+  color: #33a366;
+  font-size: 0.9rem;
+  background: rgba(51, 163, 102, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+}
