@@ -1,101 +1,157 @@
-import { useState } from 'react'
-import { getToken } from '../utils/auth'
+import { useState } from "react";
+import { registerAnimal } from "../services/api";
 import "../styles/Post.css";
 
-export default function Post({ onSuccess, onClose }) {
-  const [formData, setFormData] = useState({
-    idAnimal: '',
-    description: '',
-    status: 'ACTIVE',
-  })
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+const INITIAL_FORM = {
+  animalName: "",
+  species: "",
+  dateOfBirth: "",
+  description: "",
+  size: "",
+  animalZipcode: "",
+  breedId: "",
+  photoUrl: "",
+};
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+export default function Post({ onSuccess, onClose }) {
+  const [form, setForm]       = useState(INITIAL_FORM);
+  const [error, setError]     = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError(null)
+    e.preventDefault();
+    setError("");
 
-    if (!formData.idAnimal) {
-      setError('El ID del animal es obligatorio.')
-      return
+    if (!form.animalName || !form.species || !form.animalZipcode) {
+      setError("Name, species and zipcode are required.");
+      return;
+    }
+
+    if (!form.photoUrl) {
+      setError("At least one photo URL is required.");
+      return;
     }
 
     setLoading(true)
+
+    const animalRequest = {
+      animalName: form.animalName,
+      species: form.species,
+      dateOfBirth: form.dateOfBirth || null,
+      description: form.description || null,
+      size: form.size || null,
+      animalZipcode: form.animalZipcode,
+      publishedAt: new Date().toISOString(),
+      breedId: form.breedId ? parseInt(form.breedId) : null,
+      photos: form.photoUrl ? [{ url: form.photoUrl }] : [],
+    };
+
     try {
-      const token = getToken()
-      const response = await fetch('http://localhost:8080/post/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          idAnimal: parseInt(formData.idAnimal),
-          description: formData.description || null,
-          status: formData.status,
-        }),
-      })
-
-      if (!response.ok) {
-        setError('No se pudo crear la publicación. Verifica el ID del animal.')
-        return
+      const res = await registerAnimal(animalRequest);
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        setError(errorData.message || "Failed to register animal.");
+        return;
       }
-
-      const data = await response.json()
-      onSuccess?.(data)
-      onClose?.()
+      const data = await res.json();
+      setSuccess("Animal registered successfully!");
+      setTimeout(() => {
+        onSuccess?.(data);
+        onClose?.();
+      }, 1500);
     } catch (err) {
-      setError('Error de conexión. Intenta de nuevo.')
+      setError("Connection error. Please try again.");
     } finally {
-      setLoading(false)
+        setLoading(false)
     }
-  }
+  };
 
   return (
   <form className="post-form" onSubmit={handleSubmit}>
 
-    <div className="post-form-group">
-      <label className="post-form-label">Animal ID *</label>
-      <input
-        className="post-form-input"
-        type="number"
-        name="idAnimal"
-        placeholder="e.g. 3"
-        value={formData.idAnimal}
-        onChange={handleChange}
-        min={1}
-      />
-    </div>
+      <div className="post-form-group">
+        <label className="post-form-label">Animal Name *</label>
+        <input
+          className="post-form-input"
+          name="animalName"
+          placeholder="Animal Name"
+          onChange={handleChange}
+        />
+      </div>
 
-    <div className="post-form-group">
-      <label className="post-form-label">Description</label>
-      <textarea
-        className="post-form-textarea"
-        name="description"
-        placeholder="Tell us about this animal..."
-        value={formData.description}
-        onChange={handleChange}
-      />
-    </div>
+      <div className="post-form-group">
+        <label className="post-form-label">Species</label>
+        <select
+          className="post-form-select"
+          name="species"
+          onChange={handleChange}
+        >
+          <option value="">Select Species</option>
+          <option value="DOG">Dog</option>
+          <option value="CAT">Cat</option>
+        </select>
+      </div>
 
-    <div className="post-form-group">
-      <label className="post-form-label">Status</label>
-      <select
-        className="post-form-select"
-        name="status"
-        value={formData.status}
-        onChange={handleChange}
-      >
-        <option value="ACTIVE">Active</option>
-        <option value="INACTIVE">Inactive</option>
-      </select>
-    </div>
+      <div className="post-form-group">
+        <label className="post-form-label">Date of Birth</label>
+        <input
+          className="post-form-input"
+          name="dateOfBirth"
+          type="date"
+          onChange={handleChange}
+        />
+      </div>
 
-    {error && <p className="post-form-error">{error}</p>}
+      <div className="post-form-group">
+        <label className="post-form-label">Size</label>
+        <select
+          className="post-form-select"
+          name="size"
+          onChange={handleChange}
+        >
+          <option value="">Select Size</option>
+          <option value="small">Small</option>
+          <option value="medium">Medium</option>
+          <option value="large">Large</option>
+          <option value="extra_large">Extra Large</option>
+        </select>
+      </div>
+
+      <div className="post-form-group">
+        <label className="post-form-label">Zip Code</label>
+        <input
+          className="post-form-input"
+          name="animalZipcode"
+          placeholder="Zip Code"
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="post-form-group">
+        <label className="post-form-label">Photo URL</label>
+        <input
+          className="post-form-input"
+          name="photoUrl"
+          placeholder="Photo URL (http://...)"
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="post-form-group">
+        <label className="post-form-label">Description</label>
+        <textarea
+          className="post-form-textarea"
+          name="description"
+          placeholder="Tell us about this animal..."
+          onChange={handleChange}
+        />
+      </div>
+
+      {error && <p className="post-form-error">{error}</p>}
+      {success && <p className="post-form-success">{success}</p>}
 
     <div className="post-form-actions">
       <button
@@ -111,10 +167,10 @@ export default function Post({ onSuccess, onClose }) {
         type="submit"
         disabled={loading}
       >
-        {loading ? 'Publishing...' : 'Publish'}
+        {loading ? 'Posting...' : 'Post'}
       </button>
     </div>
 
-  </form>
-)
+    </form>
+  );
 }

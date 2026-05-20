@@ -71,7 +71,7 @@ export default function MyPosts() {
           </div>
 
           {/* ── Feed filtered to current user ── */}
-          <PostFeed refresh={feedRefresh} endpoint="http://localhost:8080/post/me" currentUserId={currentUserId} onRefresh={() => setFeedRefresh(prev => prev + 1)} />
+          <PostFeed refresh={feedRefresh} endpoint="http://localhost:8080/animals/my_animals" currentUserId={currentUserId} onRefresh={() => setFeedRefresh(prev => prev + 1)} />
 
           {/* ── New post modal ── */}
           {showPostModal && (
