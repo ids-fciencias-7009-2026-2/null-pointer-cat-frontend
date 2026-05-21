@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getToken } from '../utils/auth';
 import { PhotoCarousel } from './PostFeed.jsx';
 import '../styles/AnimalDetail.css';
+import AnimalMap from './AnimalMap.jsx';
 
 export default function AnimalDetail() {
     const { id } = useParams();
@@ -62,9 +63,14 @@ export default function AnimalDetail() {
                         <p>{animal.description}</p>
                     </div>
 
-                    <div className="map-placeholder">
-                        <span>Mapa (Próximamente)</span>
+                    <div className="detail-section">
+                        <h2 className="section-title">Location</h2>
+                            <p className="map-disclaimer">
+                                📍 Only the general are of the CP is shown
+                            </p>
+                        <AnimalMap zipcode={animal.animalZipcode} country="Spain" />
                     </div>
+
                 </div>
             </div>
         </div>
