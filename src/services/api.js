@@ -115,3 +115,16 @@ export const getMyAnimals = () =>
     headers: authHeaders(),
   });
 
+const PHOTOS_URL = "http://localhost:8080/photos";
+
+export const uploadPhoto = (file) => {
+  const formData = new FormData()
+  formData.append("file", file)
+  return fetch(`${PHOTOS_URL}/upload`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+    body: formData,
+  })
+}
