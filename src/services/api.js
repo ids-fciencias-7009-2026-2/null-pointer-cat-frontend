@@ -108,3 +108,31 @@ export const registerAnimal = (data) =>
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
+
+export const getMyAnimals = () =>
+  fetch(`${ANIMALS_URL}/my_animals`, {
+    method: "GET",
+    headers: authHeaders(),
+  });
+
+const PHOTOS_URL = "http://localhost:8080/photos";
+
+export const uploadPhoto = (file) => {
+  const formData = new FormData()
+  formData.append("file", file)
+  return fetch(`${PHOTOS_URL}/upload`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+    body: formData,
+  })
+}
+
+const FAVORITES_URL = "http://localhost:8080/favorites";
+
+export const markInterest = (animalId) =>
+  fetch(`${FAVORITES_URL}/${animalId}`, {
+    method: "POST",
+    headers: authHeaders(),
+  });
