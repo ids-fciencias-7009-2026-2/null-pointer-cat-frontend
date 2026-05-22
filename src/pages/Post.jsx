@@ -75,7 +75,7 @@ export default function Post({ onSuccess, onClose }) {
           return;
         }
         const data = await res.json();
-        uploadedUrls.push({ url: data.url });
+        uploadedUrls.push({ url: data.secure_url });
       }
 
       const animalRequest = {

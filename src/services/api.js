@@ -115,16 +115,17 @@ export const getMyAnimals = () =>
     headers: authHeaders(),
   });
 
-const PHOTOS_URL = "http://localhost:8080/photos";
+
+const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/do8arnt7r/image/upload"
+const CLOUDINARY_PRESET = "adoptPaws"
 
 export const uploadPhoto = (file) => {
   const formData = new FormData()
   formData.append("file", file)
-  return fetch(`${PHOTOS_URL}/upload`, {
+  formData.append("upload_preset", CLOUDINARY_PRESET)
+
+  return fetch(CLOUDINARY_URL, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
     body: formData,
   })
 }
