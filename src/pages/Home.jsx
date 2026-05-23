@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getToken } from '../utils/auth'
+import { BiBell } from 'react-icons/bi'
+import '../styles/Home.css'
+
 import Sidebar from './Sidebar'
 import Post from './Post'
 import PostFeed from './PostFeed'
-import '../styles/Home.css'
-import { BiBell } from 'react-icons/bi'
 import AnimalSearch from './AnimalSearch'
+import AnimalMapView from './AnimalMapView'
 
 export default function Home() {
   const [userInitials, setUserInitials]   = useState('?')
@@ -63,17 +65,23 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Search */}
-          <AnimalSearch onSearchActive={setSearchActive} />
+        {/* === Layout in two columns for searchbar and map*/}
+        <div className="home-content-row">
+          <div className="home-search-col">
+            <AnimalSearch onSearchActive={setSearchActive} />
+            {!searchActive && (
+              <PostFeed
+                refresh={feedRefresh}
+                currentUserId={currentUserId}
+                onRefresh={() => setFeedRefresh(prev => prev + 1)}
+              />
+            )}
+          </div>
 
-          {/* Feed — hidden while search is active */}
-          {!searchActive && (
-            <PostFeed
-              refresh={feedRefresh}
-              currentUserId={currentUserId}
-              onRefresh={() => setFeedRefresh(prev => prev + 1)}
-            />
-          )}
+          <aside className="home-map-col">
+            <AnimalMapView refresh={feedRefresh}/>
+          </aside>
+        </div>
 
           {/* Publish button */}
           <button className="home-publish-btn" onClick={() => setShowPostModal(true)}>

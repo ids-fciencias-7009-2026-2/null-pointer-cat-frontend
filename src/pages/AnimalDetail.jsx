@@ -68,7 +68,7 @@ export default function AnimalDetail() {
                             <p className="map-disclaimer">
                                 📍 Only the general are of the CP is shown
                             </p>
-                        <AnimalMap zipcode={animal.animalZipcode} country="Spain" />
+                        <AnimalMap zipcode={animal.animalZipcode} country="Mexico" />
                     </div>
 
                 </div>

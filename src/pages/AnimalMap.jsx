@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { getToken } from '../utils/auth';
 
-export default function AnimalMap({ zipcode, country = 'Spain' }) {
+export default function AnimalMap({ zipcode, country = 'Mexico' }) {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const [status, setStatus] = useState('loading'); // loading | ready | error
@@ -11,20 +12,20 @@ export default function AnimalMap({ zipcode, country = 'Spain' }) {
     if (!zipcode || !mapRef.current) return;
 
     const initMap = async () => {
-      try {
-        // Geocodificate CP with Nominatim
-        const res = await fetch(
-          `https://nominatim.openstreetmap.org/search?postalcode=${zipcode}&country=${country}&format=json&limit=1`,
-          { headers: { 'Accept-Language': 'en' } }
-        );
-        const data = await res.json();
+       try {
+        const token = getToken();
+        const res = await fetch(`http://localhost:8080/geocoding/${zipcode}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-        if (!data.length) {
+        if (!res.ok) {
           setStatus('error');
           return;
         }
 
-        const center = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+        const { lat, lng } = await res.json();
+        const center = [lat, lng];
+
 
         if (mapInstanceRef.current) {
           mapInstanceRef.current.remove();
@@ -43,8 +44,8 @@ export default function AnimalMap({ zipcode, country = 'Spain' }) {
         // Circle to represent the area
         L.circle(center, {
           radius: 1200,        
-          color: '#e07b39',    
-          fillColor: '#e07b39',
+          color: '#63b7bf',    
+          fillColor: '#63b7bf',
           fillOpacity: 0.15,
           weight: 2,
         }).addTo(map);
