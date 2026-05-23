@@ -142,3 +142,17 @@ export const getMyFavorites = () =>
     method: "GET",
     headers: authHeaders(),
   });
+
+export const forgotPassword = (email) =>
+  fetch(`${BASE_URL}/forgot-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+
+export const resetPassword = (token, newPassword) =>
+  fetch(`${BASE_URL}/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, newPassword }),
+  });
