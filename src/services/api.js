@@ -115,6 +115,14 @@ export const getMyAnimals = () =>
     headers: authHeaders(),
   });
 
+export const updateAnimal = (id, data) =>
+  fetch(`${ANIMALS_URL}/${id}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
+
+
 const PHOTOS_URL = "http://localhost:8080/photos";
 
 export const uploadPhoto = (file) => {
