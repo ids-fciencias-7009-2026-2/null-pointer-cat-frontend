@@ -128,3 +128,11 @@ export const uploadPhoto = (file) => {
     body: formData,
   })
 }
+
+const FAVORITES_URL = "http://localhost:8080/favorites";
+
+export const markInterest = (animalId) =>
+  fetch(`${FAVORITES_URL}/${animalId}`, {
+    method: "POST",
+    headers: authHeaders(),
+  });
