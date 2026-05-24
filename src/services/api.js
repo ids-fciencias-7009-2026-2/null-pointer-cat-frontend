@@ -136,3 +136,9 @@ export const markInterest = (animalId) =>
     method: "POST",
     headers: authHeaders(),
   });
+
+export const getMyFavorites = () =>
+  fetch("http://localhost:8080/favorites/me", {
+    method: "GET",
+    headers: authHeaders(),
+  });

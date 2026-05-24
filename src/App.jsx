@@ -8,6 +8,7 @@ import ProfileEdit from "./pages/ProfileEdit.jsx"
 import MyPosts from "./pages/MyPosts.jsx"
 import AnimalDetail from "./pages/AnimalDetail.jsx"
 import { getToken } from "./utils/auth"
+import MyFavorites from "./pages/MyFavorites"
 
 export default function App() {
   const isAuthenticated = !!getToken()
@@ -20,6 +21,10 @@ export default function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
+        <Route
+          path="/favorites"
+          element={isAuthenticated ? <MyFavorites /> : <Navigate to="/login" />}
+        />
 
         {/* Rutas Protegidas */}
         <Route
