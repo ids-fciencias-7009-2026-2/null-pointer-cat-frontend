@@ -4,7 +4,6 @@ import { getToken } from '../utils/auth';
 import { markInterest } from '../services/api';
 import { PhotoCarousel } from './PostFeed.jsx';
 import '../styles/AnimalDetail.css';
-import AnimalMap from './AnimalMap.jsx';
 
 export default function AnimalDetail() {
     const { id } = useParams();
@@ -96,14 +95,28 @@ export default function AnimalDetail() {
                         <p>{animal.description}</p>
                     </div>
 
-                    <div className="detail-section">
-                        <h2 className="section-title">Location</h2>
-                            <p className="map-disclaimer">
-                                📍 Only the general are of the CP is shown
-                            </p>
-                        <AnimalMap zipcode={animal.animalZipcode} country="Mexico" />
-                    </div>
+                    <button
+                          className="interest-btn"
+                          onClick={handleInterest}
+                          disabled={interestState === 'loading' || interestState === 'done'}
+                    >
+                          {interestState === 'loading' ? 'Enviando...'
+                                       : interestState === 'done' ? '✓ Interés registrado'
+                                       : 'Me interesa'}
+                    </button>
 
+                    {interestMessage && (
+                        <p className={`interest-message ${interestState === 'error'
+                            ? 'interest-message--error'
+                            : 'interest-message--success'}`}>
+                            {interestMessage}
+                        </p>
+                    )}
+
+
+                    <div className="map-placeholder">
+                        <span>Mapa (Próximamente)</span>
+                    </div>
                 </div>
             </div>
         </div>
