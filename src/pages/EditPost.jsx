@@ -1,11 +1,16 @@
 import { useState } from 'react'
 import { getToken } from '../utils/auth'
 import '../styles/EditPost.css'
+import { updateAnimal } from "../services/api";
 
 export default function EditPost({ post, onSuccess, onClose }) {
   const [formData, setFormData] = useState({
-    description: post.description || '',
-    status: post.status || 'ACTIVE',
+    animalName:    post.animalName || '',
+    species:       post.species || '',
+    dateOfBirth:   post.dateOfBirth || '',
+    size:          post.size || '',
+    animalZipcode: post.animalZipcode || '',
+    description:   post.description || ''
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -24,17 +29,13 @@ export default function EditPost({ post, onSuccess, onClose }) {
     setLoading(true)
 
     try {
-      const token = getToken()
-      const response = await fetch(`http://localhost:8080/post/${post.idPost}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          description: formData.description || null,
-          status: formData.status,
-        }),
+      const response = await updateAnimal(animalId, {
+              animalName:    formData.animalName || null,
+              species:       formData.species || null,
+              dateOfBirth:   formData.dateOfBirth || null,
+              size:          formData.size || null,
+              animalZipcode: formData.animalZipcode || null,
+              description:   formData.description || null,
       })
 
       if (!response.ok) {
@@ -86,6 +87,60 @@ export default function EditPost({ post, onSuccess, onClose }) {
     <form className="edit-form" onSubmit={handleSubmit}>
 
       <div className="edit-field">
+        <label className="edit-label">Animal Name</label>
+        <input
+          className="edit-input"
+          name="animalName"
+          value={formData.animalName}
+          onChange={handleChange}
+          placeholder="Animal name"
+        />
+      </div>
+
+      <div className="edit-field">
+        <label className="edit-label">Species</label>
+        <select className="edit-select" name="species" value={formData.species} onChange={handleChange}>
+          <option value="">Select species</option>
+          <option value="DOG">Dog</option>
+          <option value="CAT">Cat</option>
+        </select>
+      </div>
+
+      <div className="edit-field">
+        <label className="edit-label">Date of Birth</label>
+        <input
+          className="edit-input"
+          name="dateOfBirth"
+          type="date"
+          max={new Date().toISOString().split('T')[0]}
+          value={formData.dateOfBirth}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="edit-field">
+        <label className="edit-label">Size</label>
+        <select className="edit-select" name="size" value={formData.size} onChange={handleChange}>
+          <option value="">Select size</option>
+          <option value="small">Small</option>
+          <option value="medium">Medium</option>
+          <option value="large">Large</option>
+          <option value="extra_large">Extra Large</option>
+        </select>
+      </div>
+
+      <div className="edit-field">
+        <label className="edit-label">Zip Code</label>
+        <input
+          className="edit-input"
+          name="animalZipcode"
+          value={formData.animalZipcode}
+          onChange={handleChange}
+          placeholder="Zip code"
+        />
+      </div>
+
+      <div className="edit-field">
         <label className="edit-label">Description</label>
         <textarea
           className="edit-textarea"
@@ -94,14 +149,6 @@ export default function EditPost({ post, onSuccess, onClose }) {
           onChange={handleChange}
           rows={4}
         />
-      </div>
-
-      <div className="edit-field">
-        <label className="edit-label">Status</label>
-        <select className="edit-select" name="status" value={formData.status} onChange={handleChange}>
-          <option value="ACTIVE">Active</option>
-          <option value="INACTIVE">Inactive</option>
-        </select>
       </div>
 
       {error && <p className="edit-error">{error}</p>}
