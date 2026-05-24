@@ -124,3 +124,38 @@
     .detail-layout { grid-template-columns: 1fr; }
     .detail-title { font-size: 3rem; }
 }
+
+.detail-breed-card {
+    background-color: var(--bg-secondary, #f9f9f9);
+    border: 2px solid #eef2f0;
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.breed-card-title {
+    margin: 0 0 12px 0;
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.breed-card-content p {
+    margin: 6px 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.breed-care-alert {
+    background-color: #f0f7f4;
+    border-left: 4px solid #c4e1d4;
+    padding: 12px 16px;
+    border-radius: 0 10px 10px 0;
+    margin-top: 15px;
+}
+
+.breed-care-alert strong {
+    color: #2b5e47;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+}

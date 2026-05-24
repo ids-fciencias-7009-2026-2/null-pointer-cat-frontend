@@ -35,37 +35,37 @@ export default function AnimalDetail() {
     }, [id]);
 
     const handleInterest = async () => {
-            setInterestState('loading');
-            setInterestMessage('');
-            try {
-                const res = await markInterest(id);
+        setInterestState('loading');
+        setInterestMessage('');
+        try {
+            const res = await markInterest(id);
 
-                // 409 = ya manifestaste interés (o no se pudo guardar)
-                if (res.status === 409) {
-                    setInterestState('done');
-                    setInterestMessage('Parece que ya manifestaste interés en este animal.');
-                    return;
-                }
-                if (!res.ok) {
-                    setInterestState('error');
-                    setInterestMessage('No se pudo registrar tu interés. Intenta de nuevo.');
-                    return;
-                }
-
-                const data = await res.json();
+            // 409 = ya manifestaste interés (o no se pudo guardar)
+            if (res.status === 409) {
                 setInterestState('done');
-                setInterestMessage(
-                    data.message || '¡Tu interés ha sido registrado! El dueño recibirá tus datos.'
-                );
-            } catch {
-                setInterestState('error');
-                setInterestMessage('Error de conexión. Intenta de nuevo.');
+                setInterestMessage('You have already showed interest in this pet.');
+                return;
             }
+            if (!res.ok) {
+                setInterestState('error');
+                setInterestMessage("Your interest could not be registered. Try again.");
+                return;
+            }
+
+            const data = await res.json();
+            setInterestState('done');
+            setInterestMessage(
+                data.message || "Your interest has been registered! The pet's owner will receive your contact information."
+            );
+        } catch {
+            setInterestState('error');
+            setInterestMessage('Conexion error. Try again.');
+        }
     };
 
 
-    if (loading) return <div className="pf-message">Cargando ficha informativa...</div>;
-    if (!animal) return <div className="pf-message">No se encontró la información del animal.</div>;
+    if (loading) return <div className="pf-message">Loading information...</div>;
+    if (!animal) return <div className="pf-message">The animal's information was not found.</div>;
 
     return (
         <div className="detail-page-container">
@@ -85,22 +85,39 @@ export default function AnimalDetail() {
                     </div>
 
                     <div className="detail-section">
-                        <h2 className="section-title">Datos del animal</h2>
-                        <div className="info-box"><strong>Tamaño:</strong> {animal.size}</div>
-                        <div className="info-box"><strong>Ubicación:</strong> CP {animal.animalZipcode}</div>
-                        <div className="info-box"><strong>Fecha de nacimiento:</strong> {new Date(animal.dateOfBirth).toLocaleDateString()}</div>
+                        <h2 className="section-title">Pet information</h2>
+                        <div className="info-box"><strong>Size:</strong> {animal.size}</div>
+                        <div className="info-box"><strong>Location:</strong> PC {animal.animalZipcode}</div>
+                        <div className="info-box"><strong>Birthdate:</strong> {new Date(animal.dateOfBirth).toLocaleDateString()}</div>
                     </div>
 
                     <div className="detail-description">
-                        <h3>Descripción</h3>
+                        <h3>Description</h3>
                         <p>{animal.description}</p>
                     </div>
 
+                    {animal.breedName && (
+                        <div className="detail-breed-card">
+                            <h3 className="breed-card-title">Breed Information: {animal.breedName}</h3>
+                            <div className="breed-card-content">
+                                <p><strong>General Info:</strong> {animal.breedGeneralInfo || 'No extra info available.'}</p>
+                                <p><strong>Traits:</strong> {animal.breedRelevantCharacteristics || 'N/A'}</p>
+
+                                {animal.breedCareRecommendations && (
+                                    <div className="breed-care-alert">
+                                        <strong>Care Recommendations:</strong>
+                                        <p>{animal.breedCareRecommendations}</p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    )}
+
                     <div className="detail-section">
                         <h2 className="section-title">Location</h2>
-                            <p className="map-disclaimer">
-                                📍 Only the general are of the CP is shown
-                            </p>
+                        <p className="map-disclaimer">
+                            📍 Only the general area of the CP is shown
+                        </p>
                         <AnimalMap zipcode={animal.animalZipcode} country="Mexico" />
                     </div>
 

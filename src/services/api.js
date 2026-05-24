@@ -156,3 +156,9 @@ export const resetPassword = (token, newPassword) =>
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ token, newPassword }),
   });
+
+export const getExternalBreeds = (species) =>
+    fetch(`http://localhost:8080/api/external/breeds?species=${species}`, {
+        method: "GET",
+        headers: authHeaders(),
+    });
