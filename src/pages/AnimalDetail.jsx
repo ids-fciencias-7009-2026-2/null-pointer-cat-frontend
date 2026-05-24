@@ -96,6 +96,24 @@ export default function AnimalDetail() {
                         <p>{animal.description}</p>
                     </div>
 
+                    <button
+                          className="interest-btn"
+                          onClick={handleInterest}
+                          disabled={interestState === 'loading' || interestState === 'done'}
+                    >
+                          {interestState === 'loading' ? 'Enviando...'
+                                       : interestState === 'done' ? '✓ Interés registrado'
+                                       : 'Me interesa'}
+                    </button>
+
+                    {interestMessage && (
+                        <p className={`interest-message ${interestState === 'error'
+                            ? 'interest-message--error'
+                            : 'interest-message--success'}`}>
+                            {interestMessage}
+                        </p>
+                    )}
+
                     <div className="detail-section">
                         <h2 className="section-title">Location</h2>
                             <p className="map-disclaimer">
