@@ -82,7 +82,7 @@ export const updateProfile = (data) =>
     headers: authHeaders(),
     body: JSON.stringify(data),
   });
-  
+
 
 
 const ANIMALS_URL = "http://localhost:8080/animals";
@@ -115,6 +115,40 @@ export const getMyAnimals = () =>
     headers: authHeaders(),
   });
 
+export const updateAnimal = (id, data) =>
+  fetch(`${ANIMALS_URL}/${id}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(data),
+  });
+
+const FAVORITES_URL = "http://localhost:8080/favorites";
+
+export const markInterest = (animalId) =>
+  fetch(`${FAVORITES_URL}/${animalId}`, {
+    method: "POST",
+    headers: authHeaders(),
+  });
+
+export const getMyFavorites = () =>
+  fetch("http://localhost:8080/favorites/me", {
+    method: "GET",
+    headers: authHeaders(),
+  });
+
+export const forgotPassword = (email) =>
+  fetch(`${BASE_URL}/forgot-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+
+export const resetPassword = (token, newPassword) =>
+  fetch(`${BASE_URL}/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, newPassword }),
+  });
 
 const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/do8arnt7r/image/upload"
 const CLOUDINARY_PRESET = "adoptPaws"
