@@ -115,52 +115,17 @@ export const getMyAnimals = () =>
     headers: authHeaders(),
   });
 
-export const updateAnimal = (id, data) =>
-  fetch(`${ANIMALS_URL}/${id}`, {
-    method: "PUT",
-    headers: authHeaders(),
-    body: JSON.stringify(data),
-  });
 
-
-const PHOTOS_URL = "http://localhost:8080/photos";
+const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/do8arnt7r/image/upload"
+const CLOUDINARY_PRESET = "adoptPaws"
 
 export const uploadPhoto = (file) => {
   const formData = new FormData()
   formData.append("file", file)
-  return fetch(`${PHOTOS_URL}/upload`, {
+  formData.append("upload_preset", CLOUDINARY_PRESET)
+
+  return fetch(CLOUDINARY_URL, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
     body: formData,
   })
 }
-
-const FAVORITES_URL = "http://localhost:8080/favorites";
-
-export const markInterest = (animalId) =>
-  fetch(`${FAVORITES_URL}/${animalId}`, {
-    method: "POST",
-    headers: authHeaders(),
-  });
-
-export const getMyFavorites = () =>
-  fetch("http://localhost:8080/favorites/me", {
-    method: "GET",
-    headers: authHeaders(),
-  });
-
-export const forgotPassword = (email) =>
-  fetch(`${BASE_URL}/forgot-password`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email }),
-  });
-
-export const resetPassword = (token, newPassword) =>
-  fetch(`${BASE_URL}/reset-password`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token, newPassword }),
-  });
