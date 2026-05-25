@@ -164,36 +164,8 @@ export const uploadPhoto = (file) => {
   })
 }
 
-const FAVORITES_URL = "http://localhost:8080/favorites";
-
-export const markInterest = (animalId) =>
-  fetch(`${FAVORITES_URL}/${animalId}`, {
-    method: "POST",
-    headers: authHeaders(),
-  });
-
-export const getMyFavorites = () =>
-  fetch("http://localhost:8080/favorites/me", {
+export const getExternalBreeds = (species) =>
+  fetch(`http://localhost:8080/api/external/breeds?species=${species}`, {
     method: "GET",
     headers: authHeaders(),
   });
-
-export const forgotPassword = (email) =>
-  fetch(`${BASE_URL}/forgot-password`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email }),
-  });
-
-export const resetPassword = (token, newPassword) =>
-  fetch(`${BASE_URL}/reset-password`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token, newPassword }),
-  });
-
-export const getExternalBreeds = (species) =>
-    fetch(`http://localhost:8080/api/external/breeds?species=${species}`, {
-        method: "GET",
-        headers: authHeaders(),
-    });

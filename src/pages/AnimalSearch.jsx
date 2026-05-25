@@ -4,20 +4,18 @@ import { searchAnimals } from '../services/api'
 import { PostCard } from './PostFeed'
 import '../styles/AnimalSearch.css'
 
-const FILTER_KEYS = ['species', 'size', 'zipcode', 'breedName']
+const FILTER_KEYS = ['species', 'size', 'zipcode']
 
 const SUGGESTIONS = {
   species:   ['DOG', 'CAT'],
   size:      ['small', 'medium', 'large', 'extra_large'],
   zipcode:   [],
-  breedName: [],
 }
 
 const TAG_COLORS = {
   species:   { bg: '#EEF6F4', border: '#7FB5A8', text: '#3D8578', dot: '#7FB5A8' },
   size:      { bg: '#E8F3F1', border: '#5A9A8C', text: '#2E6B61', dot: '#5A9A8C' },
   zipcode:   { bg: '#F0F7F6', border: '#9ECAC2', text: '#3D7A72', dot: '#9ECAC2' },
-  breedName: { bg: '#E4F0EE', border: '#4D8F84', text: '#2A6B62', dot: '#4D8F84' },
 }
 
 function parseInput(raw) {
@@ -25,7 +23,8 @@ function parseInput(raw) {
   if (!match) return null
   const key = match[1].trim().toLowerCase()
   const val = match[2].trim()
-  const keyMap = { breed: 'breedName', zip: 'zipcode' }
+  
+  const keyMap = { zip: 'zipcode' }
   const normalized = keyMap[key] ?? key
   if (!FILTER_KEYS.includes(normalized)) return null
   return { key: normalized, value: val }
@@ -165,7 +164,7 @@ export default function AnimalSearch({ onSearchActive }) {
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
           onFocus={() => setFocused(true)}
-          placeholder={tags.length === 0 ? 'Filter by species, size, zipcode, breedName…' : 'Add another filter…'}
+          placeholder={tags.length === 0 ? 'Filter by species, size, zipcode…' : 'Add another filter…'}
         />
 
         {tags.length > 0 && (
@@ -207,7 +206,7 @@ export default function AnimalSearch({ onSearchActive }) {
 
       <div className="search-hints">
         <span className="search-hints__label">Try:</span>
-        {['species: DOG', 'size: small', 'breedName: golden', 'zipcode: 06600'].map((hint) => {
+        {['species: DOG', 'size: small', 'zipcode: 06600'].map((hint) => {
           const p = parseInput(hint)
           if (!p || tags.find((t) => t.key === p.key)) return null
           return (
@@ -228,7 +227,6 @@ export default function AnimalSearch({ onSearchActive }) {
         </p>
       )}
 
-      {/* Only show animal results when there are active tags (user searched) */}
       {tags.length > 0 && (
         <div className="pf-grid">
           {loading
