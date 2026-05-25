@@ -111,6 +111,11 @@ return (
             Sign up
             </span></Link>
             </p>
+
+            <p className="login-footer" style={{ marginTop: '8px' }}>
+              <Link to="/forgot-password">Forgot your password?</Link>
+            </p>
+
            </div>
        </div>
   </div>
