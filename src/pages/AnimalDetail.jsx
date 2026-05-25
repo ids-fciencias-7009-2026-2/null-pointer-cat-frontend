@@ -28,7 +28,7 @@ export default function AnimalDetail() {
             } catch (err) {
                 console.error("Error:", err);
             } finally {
-                setLoading(false);
+                Loading(false);
             }
         };
         fetchDetail();
@@ -96,6 +96,7 @@ export default function AnimalDetail() {
                         <p>{animal.description}</p>
                     </div>
 
+                    {/* renderizado de la información de la raza (de la rama apis) */}
                     {animal.breedName && (
                         <div className="detail-breed-card">
                             <h3 className="breed-card-title">Breed Information: {animal.breedName}</h3>
@@ -111,6 +112,25 @@ export default function AnimalDetail() {
                                 )}
                             </div>
                         </div>
+                    )}
+
+                    {/* Botón de interés y su feedback (de la rama main) */}
+                    <button
+                        className="interest-btn"
+                        onClick={handleInterest}
+                        disabled={interestState === 'loading' || interestState === 'done'}
+                    >
+                        {interestState === 'loading' ? 'Enviando...'
+                            : interestState === 'done' ? '✓ Interés registrado'
+                            : 'Me interesa'}
+                    </button>
+
+                    {interestMessage && (
+                        <p className={`interest-message ${interestState === 'error'
+                            ? 'interest-message--error'
+                            : 'interest-message--success'}`}>
+                            {interestMessage}
+                        </p>
                     )}
 
                     <div className="detail-section">

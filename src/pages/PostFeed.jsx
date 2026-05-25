@@ -4,6 +4,7 @@ import { BiPencil } from 'react-icons/bi'
 import { getToken } from '../utils/auth'
 import EditPost from './EditPost'
 import '../styles/PostFeed.css'
+import { createPortal } from 'react-dom'
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -171,7 +172,7 @@ export function PostCard({ post, currentUserId, onRefresh }) {
       </div>
 
       {/* ── Edit modal ── */}
-      {showEditModal && (
+      {showEditModal && createPortal(
         <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
           <div className="modal-container" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
@@ -185,6 +186,7 @@ export function PostCard({ post, currentUserId, onRefresh }) {
             />
           </div>
         </div>
+        ,document.body
       )}
 
     </article>

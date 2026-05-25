@@ -41,6 +41,15 @@
   box-shadow: 0 0 0 1px rgba(136, 178, 166, 0.1);
 }
 
+.post-form-select {
+  cursor: pointer;
+  appearance: none;
+  padding-right: 38px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
 .post-form-textarea {
   resize: vertical;
   min-height: 100px;
