@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { registerAnimal, uploadPhoto } from "../services/api";
+import { useState, useEffect } from "react";
+import { registerAnimal, uploadPhoto, getExternalBreeds } from "../services/api";
 import "../styles/Post.css";
 
 const MAX_PHOTOS = 5;
@@ -20,8 +20,42 @@ export default function Post({ onSuccess, onClose }) {
   const [error, setError]     = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
+  const [breeds, setBreeds]     = useState([]);
+  const [loadingBreeds, setLoadingBreeds] = useState(false);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  useEffect(() => {
+    if (!form.species) {
+      setBreeds([]);
+      return;
+    }
+
+    const loadBreeds = async () => {
+      setLoadingBreeds(true);
+      try {
+        const res = await getExternalBreeds(form.species);
+        if (res.ok) {
+          const data = await res.json();
+          setBreeds(data);
+        }
+      } catch (err) {
+        console.error("Error fetching breeds:", err);
+      } finally {
+        setLoadingBreeds(false);
+      }
+    };
+
+    loadBreeds();
+  }, [form.species]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "species") {
+      setForm({ ...form, species: value, breedId: "" });
+    } else {
+      setForm({ ...form, [name]: value });
+    }
+  };
 
   const handlePhotoChange = (e) => {
     const files     = Array.from(e.target.files);
@@ -86,7 +120,7 @@ export default function Post({ onSuccess, onClose }) {
         size:          form.size || null,
         animalZipcode: form.animalZipcode,
         publishedAt:   new Date().toISOString(),
-        breedId:       form.breedId ? parseInt(form.breedId) : null,
+        breedId:       form.breedId || null,
         photos:        uploadedUrls,
       };
 
@@ -125,10 +159,30 @@ export default function Post({ onSuccess, onClose }) {
 
       <div className="post-form-group">
         <label className="post-form-label">Species *</label>
-        <select className="post-form-select" name="species" onChange={handleChange}>
+        <select className="post-form-select" name="species" onChange={handleChange} value={form.species}>
           <option value="">Select Species</option>
           <option value="DOG">Dog</option>
           <option value="CAT">Cat</option>
+        </select>
+      </div>
+
+      <div className="post-form-group">
+        <label className="post-form-label">
+          Breed {loadingBreeds && "(Loading...)"}
+        </label>
+        <select
+            className="post-form-select"
+            name="breedId"
+            onChange={handleChange}
+            value={form.breedId}
+            disabled={!form.species || loadingBreeds}
+        >
+          <option value="">Select Breed</option>
+          {breeds.map((breed) => (
+              <option key={breed.id} value={breed.id}>
+                {breed.name}
+              </option>
+          ))}
         </select>
       </div>
 
