@@ -28,7 +28,7 @@ export default function AnimalDetail() {
             } catch (err) {
                 console.error("Error:", err);
             } finally {
-                Loading(false);
+                setLoading(false);
             }
         };
         fetchDetail();
@@ -69,7 +69,7 @@ export default function AnimalDetail() {
 
     return (
         <div className="detail-page-container">
-            <button className="back-btn" onClick={() => navigate(-1)}>← Volver al listado</button>
+            <button className="back-btn" onClick={() => navigate(-1)}>←Back to list</button>
 
             <div className="detail-layout">
                 <div className="detail-gallery">
@@ -120,9 +120,9 @@ export default function AnimalDetail() {
                         onClick={handleInterest}
                         disabled={interestState === 'loading' || interestState === 'done'}
                     >
-                        {interestState === 'loading' ? 'Enviando...'
-                            : interestState === 'done' ? '✓ Interés registrado'
-                            : 'Me interesa'}
+                        {interestState === 'loading' ? 'Sending...'
+                            : interestState === 'done' ? 'Interest registered'
+                            : 'Show interest'}
                     </button>
 
                     {interestMessage && (
